@@ -65,9 +65,9 @@ PUBLIC void disp_int(int input)
  *======================================================================*/
 PUBLIC void delay(int count) {
 	int i, j, k;
-	for (k = 0; k < count; ++k) {
-		for (i = 0; i< 10; ++i) {
-			for (j = 0; j < 100000; ++j);
+	for (k = 0; k < count; k++) {
+		for (i = 0; i< 10; i++) {
+			for (j = 0; j < 100000; j++);
 		}
 	}
 }

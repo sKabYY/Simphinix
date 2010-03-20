@@ -18,8 +18,9 @@ PUBLIC int kernel_main() {
 	t_16 selector_ldt = SELECTOR_LDT_FIRST;
 	int i;
 
-	for (i = 0; i < NR_TASKS; ++i) {
+	for (i = 0; i < NR_TASKS; i++) {
 		strcpy(p_proc->p_name, p_task->name);
+		p_proc->ticks = p_proc->priority = p_task->priority;
 		p_proc->pid = i;
 
 		p_proc->ldt_sel	= selector_ldt;
@@ -49,13 +50,14 @@ PUBLIC int kernel_main() {
 		p_proc->regs.eflags = 0x1202; // IF=1, IOPL=1, bit 2 is always 1.
 
 		p_task_stack -= p_task->stacksize;
-		++p_proc;
-		++p_task;
+		p_proc++;
+		p_task++;
 		selector_ldt += (1 << 3);
 	}
 
 	p_proc_ready = proc_table;
 	k_reenter = 0;
+	ticks = 0;
 
 	init_clock();
 	init_keyboard();
@@ -71,10 +73,10 @@ PUBLIC int kernel_main() {
 void TestA() {
 //	int i = 0;
 	while(1) {
-		//disp_str("A");
-		//disp_int(i++);
-		//disp_str(".");
-		delay(5);
+		disp_str("A");
+//		disp_int(i++);
+		disp_str(".");
+		delay(1);
 	}
 }
 
@@ -85,9 +87,9 @@ void TestA() {
 void TestB() {
 //	int i = 0x1000;
 	while (1) {
-		//disp_str("B");
-		//disp_int(i++);
-		//disp_str(".");
+		disp_str("B");
+//		disp_int(i++);
+		disp_str(".");
 		delay(1);
 	}
 }

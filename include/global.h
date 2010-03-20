@@ -11,6 +11,8 @@
 #include "protect.h"
 #include "proc.h"
 
+EXTERN int			ticks;
+
 EXTERN int			disp_pos;
 
 EXTERN t_8			gdt_ptr[6];

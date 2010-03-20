@@ -30,12 +30,17 @@ typedef struct s_proc {
 
 	t_16 ldt_sel;
 	DESCRIPTOR ldts[LDT_SIZE];
+
+	int ticks;
+	int priority;
+
 	t_32 pid;
 	char p_name[16];
 } PROCESS;
 
 typedef struct s_task {
 	t_pf_task initial_eip;
+	int priority;
 	int stacksize;
 	char name[32];
 } TASK;

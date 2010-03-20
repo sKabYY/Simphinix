@@ -31,6 +31,9 @@ PUBLIC void TestB();
 PUBLIC void put_irq_handler(int irq, irq_handler handler);
 PUBLIC void spurious_irq(int irq);
 
+/* proc.c */
+PUBLIC void schedule();
+
 /* clock.c */
 PUBLIC void init_clock();
 PUBLIC void clock_handler(int irq);

@@ -21,6 +21,13 @@
 #define INT_S_CTL     0xA0 /* I/O port for second interrupt controller<Slave>  */
 #define INT_S_CTLMASK 0xA1 /* setting bits in this port disables ints <Slave>  */
 
+#define TIMER0		0x40
+#define TIMER_MODE	0x43
+#define RATE_GENERATOR	0x34
+
+#define TIMER_FREQ	1193182L
+#define HZ			100
+
 #define KB_DATA		0x60
 
 #define NR_IRQ		16

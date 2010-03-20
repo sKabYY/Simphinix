@@ -5,7 +5,7 @@ CFLAGS=-c -fno-builtin -fno-stack-protector -Wall -I include
 
 KERNELOBJS = kernel/kernel.o kernel/start.o kernel/i8259.o \
 					kernel/protect.o kernel/global.o kernel/main.o \
-					kernel/clock.o kernel/keyboard.o
+					kernel/proc.o kernel/clock.o kernel/keyboard.o
 LIBOBJS = lib/string.o lib/klib.o lib/kliba.o
 
 all: boot/LOADER.BIN kernel/KERNEL.BIN floppy.img
@@ -32,9 +32,9 @@ kernel/KERNEL.BIN: $(KERNELOBJS) $(LIBOBJS) kernel/kernel.ld
 
 copy: floppy.img boot/LOADER.BIN kernel/KERNEL.BIN
 	@-mkdir -p /tmp/floppy;\
-	mount -o loop floppy.img /tmp/floppy -o fat=12;\
-	cp boot/LOADER.BIN kernel/KERNEL.BIN /tmp/floppy/;\
-	umount /tmp/floppy;\
+	sudo mount -o loop floppy.img /tmp/floppy -o fat=12;\
+	sudo cp boot/LOADER.BIN kernel/KERNEL.BIN /tmp/floppy/;\
+	sudo umount /tmp/floppy;\
 	rmdir /tmp/floppy;\
 	echo "###complete###"
 

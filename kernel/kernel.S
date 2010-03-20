@@ -214,9 +214,9 @@ save:
 	push	%fs
 	push	%gs
 
-	mov		%ss, %di
-	mov		%di, %ds
-	mov		%di, %es
+	mov		%ss, %si
+	mov		%si, %ds
+	mov		%si, %es
 	mov		%esp, %esi
 
 	incl	(k_reenter)
