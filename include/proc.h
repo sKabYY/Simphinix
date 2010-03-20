@@ -36,6 +36,15 @@ typedef struct s_proc {
 
 	t_32 pid;
 	char p_name[16];
+
+	int p_flags;
+	message* p_msg;
+	int p_recvfrom;
+	int p_sendto;
+	int has_int_msg;
+	struct s_proc* q_sending;
+	struct s_proc* next_sending;
+	int nr_tty;
 } PROCESS;
 
 typedef struct s_task {

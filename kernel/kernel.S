@@ -54,6 +54,7 @@
 .global  hwint13
 .global  hwint14
 .global  hwint15
+.global _s_call
 
 _start:
 	mov		$StackTop, %esp
@@ -206,6 +207,21 @@ exception:
 	call	exception_handler
 	add		$8, %esp
 	hlt
+
+_s_call:
+	call	save
+	sti
+	push	%esi
+
+	push	%ebx /* msg                  */
+	push	%eax /* src/dst              */
+	push	%ecx /* SEND/RECEIVE/SENDREC */
+	call	_sys_call
+	add		$3*4, %esp
+
+	pop		%esi
+	cli
+	ret
 
 save:
 	pushal

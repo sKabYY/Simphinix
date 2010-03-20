@@ -20,8 +20,9 @@ PUBLIC t_32 seg2phys(t_16 seg);
 /* klib.c */
 PUBLIC void delay(int count);
 
-/* kernel.asm */
+/* kernel.S */
 PUBLIC void restart();
+PUBLIC int _sys_call(int call_nr, int src_dst, message* m_ptr);
 
 /* main.c */
 PUBLIC void TestA();

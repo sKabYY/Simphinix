@@ -72,6 +72,7 @@ PUBLIC int kernel_main() {
  *======================================================================*/
 void TestA() {
 //	int i = 0;
+//	__asm__ volatile("int $0x32");
 	while(1) {
 		disp_str("A");
 //		disp_int(i++);

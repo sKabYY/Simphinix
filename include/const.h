@@ -15,6 +15,9 @@
 
 #define RPL_TASK	SA_RPL1
 
+/* system call */
+#define SYSVEC		0x32
+
 /* 8259A interrupt controller ports. */
 #define INT_M_CTL     0x20 /* I/O port for interrupt controller       <Master> */
 #define INT_M_CTLMASK 0x21 /* setting bits in this port disables ints <Master> */
@@ -34,6 +37,14 @@
 
 #define CLOCK_IRQ	0
 #define KEYBOARD_IRQ	1
+
+#ifdef ASSERT
+void assert_failure(char* exp, char* file, char* base_file, int line);
+#define assert(exp) if (exp) ; \
+	else assertion_failure(#exp, __FILE__, __BASE_FILE__, __LINE__)
+#else
+#define assert(exp)
+#endif
 
 #endif
 

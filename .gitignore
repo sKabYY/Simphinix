@@ -1,6 +1,7 @@
 MANIFEST 
 
 kernel/KERNEL.BIN
+kernel/.STAMP
 boot/LOADER.BIN
 floppy.img
 KERNELASM
