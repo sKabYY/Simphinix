@@ -1,0 +1,12 @@
+MANIFEST 
+
+kernel/KERNEL.BIN
+boot/LOADER.BIN
+floppy.img
+KERNELASM
+bochsout.txt
+*.o
+*~
+.*.swp
+
+expored-translation
