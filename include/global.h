@@ -25,6 +25,8 @@ EXTERN PROCESS*		p_proc_ready;
 
 EXTERN int			k_reenter;
 
+EXTERN PROCESS*		proc_ptr;
+
 extern PROCESS		proc_table[];
 extern TASK			task_table[];
 extern char			task_stack[];

@@ -5,7 +5,8 @@ CFLAGS=-c -fno-builtin -fno-stack-protector -Wall -I include
 
 KERNELOBJS = kernel/kernel.o kernel/start.o kernel/i8259.o \
 					kernel/protect.o kernel/global.o kernel/main.o \
-					kernel/proc.o kernel/clock.o kernel/keyboard.o
+					kernel/proc.o kernel/clock.o kernel/keyboard.o \
+					kernel/syscall.o kernel/systask.o
 LIBOBJS = lib/string.o lib/klib.o lib/kliba.o lib/misc.o
 TARGETS = boot/LOADER.BIN kernel/KERNEL.BIN floppy.img
 KERNELSTAMP = kernel/.STAMP

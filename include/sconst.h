@@ -33,3 +33,5 @@
 .set	INT_S_CTLMASK,	0xa1
 .set	EOI,			0x20
 
+.set	SYSVEC,			0x32
+

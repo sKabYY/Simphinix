@@ -5,7 +5,5 @@ SECTIONS
 	{
 		_ftext = .;
 	} = 0
-	. = 0x32700;
-/*	.bss : {*(.bss)}*/
 }
 

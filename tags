@@ -8,28 +8,31 @@ $0x1	boot/lib.h	/^	mov		$0x1, %bx$/;"	v
 $0xe	boot/lib.h	/^	mov		$0xe, %ah$/;"	v
 $16	boot/include/pm.h	/^    shr     $16, %eax$/;"	v
 $4	boot/include/pm.h	/^    shl     $4, %eax$/;"	v
-CC	Makefile	/^export CC=gcc$/;"	m
-CFLAGS	Makefile	/^export CFLAGS=-c -fno-builtin -fno-stack-protector -Wall -I ..\/include$/;"	m
-CLOCK_IRQ	include/const.h	28;"	d
-DA_32	include/protect.h	88;"	d
-DA_386CGate	include/protect.h	106;"	d
-DA_386IGate	include/protect.h	107;"	d
-DA_386TGate	include/protect.h	108;"	d
-DA_386TSS	include/protect.h	105;"	d
-DA_C	include/protect.h	98;"	d
-DA_CCO	include/protect.h	100;"	d
-DA_CCOR	include/protect.h	101;"	d
-DA_CR	include/protect.h	99;"	d
-DA_DPL0	include/protect.h	90;"	d
-DA_DPL1	include/protect.h	91;"	d
-DA_DPL2	include/protect.h	92;"	d
-DA_DPL3	include/protect.h	93;"	d
-DA_DR	include/protect.h	95;"	d
-DA_DRW	include/protect.h	96;"	d
-DA_DRWA	include/protect.h	97;"	d
-DA_LDT	include/protect.h	103;"	d
-DA_LIMIT_4K	include/protect.h	89;"	d
-DA_TaskGate	include/protect.h	104;"	d
+ANY	include/const.h	26;"	d
+ASFLAGS	Makefile	/^ASFLAGS=-I include$/;"	m
+BOTH	include/const.h	59;"	d
+CC	Makefile	/^CC=gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS=-c -fno-builtin -fno-stack-protector -Wall -I include$/;"	m
+CLOCK_IRQ	include/const.h	53;"	d
+DA_32	include/protect.h	91;"	d
+DA_386CGate	include/protect.h	109;"	d
+DA_386IGate	include/protect.h	110;"	d
+DA_386TGate	include/protect.h	111;"	d
+DA_386TSS	include/protect.h	108;"	d
+DA_C	include/protect.h	101;"	d
+DA_CCO	include/protect.h	103;"	d
+DA_CCOR	include/protect.h	104;"	d
+DA_CR	include/protect.h	102;"	d
+DA_DPL0	include/protect.h	93;"	d
+DA_DPL1	include/protect.h	94;"	d
+DA_DPL2	include/protect.h	95;"	d
+DA_DPL3	include/protect.h	96;"	d
+DA_DR	include/protect.h	98;"	d
+DA_DRW	include/protect.h	99;"	d
+DA_DRWA	include/protect.h	100;"	d
+DA_LDT	include/protect.h	106;"	d
+DA_LIMIT_4K	include/protect.h	92;"	d
+DA_TaskGate	include/protect.h	107;"	d
 DESCRIPTOR	include/protect.h	/^} DESCRIPTOR;$/;"	t	typeref:struct:s_descriptor
 DispAL	boot/loader.S	/^DispAL:$/;"	l
 DispAL_1	boot/loader.S	/^DispAL_1:$/;"	l
@@ -45,49 +48,57 @@ DispStr_1	boot/loader.S	/^DispStr_1:$/;"	l
 DispStr_2	boot/loader.S	/^DispStr_2:$/;"	l
 DispStr_3	boot/loader.S	/^DispStr_3:$/;"	l
 EXTERN	include/const.h	4;"	d
-EXTERN	include/global.h	2;"	d
-EXTERN	include/global.h	3;"	d
+EXTERN	include/global.h	5;"	d
+EXTERN	include/global.h	6;"	d
 GATE	include/protect.h	/^} GATE;$/;"	t	typeref:struct:s_gate
 GDT_SIZE	include/const.h	9;"	d
+GET_TICKS	include/const.h	/^	GET_TICKS,$/;"	e	enum:msgtype
 GdtPtr	boot/loader.S	/^GdtPtr:	.2byte	(GdtLen - 1)$/;"	l
 GetFATEntry	boot/boot.S	/^GetFATEntry:$/;"	l
 GetFATEntry	boot/loader.S	/^GetFATEntry:$/;"	l
 GoOnReading	boot/boot.S	/^GoOnReading:$/;"	l
 GoOnReading	boot/loader.S	/^GoOnReading:$/;"	l
+HARD_INT	include/const.h	/^	HARD_INT = 1,$/;"	e	enum:msgtype
+HZ	include/const.h	47;"	d
 IDT_SIZE	include/const.h	10;"	d
 INDEX_DUMMY	include/protect.h	55;"	d
 INDEX_FLAT_C	include/protect.h	56;"	d
 INDEX_FLAT_RW	include/protect.h	57;"	d
-INDEX_LDT_FIRST	include/protect.h	73;"	d
-INDEX_TSS	include/protect.h	72;"	d
+INDEX_LDT_C	include/protect.h	71;"	d
+INDEX_LDT_FIRST	include/protect.h	76;"	d
+INDEX_LDT_RW	include/protect.h	72;"	d
+INDEX_TSS	include/protect.h	75;"	d
 INDEX_VIDEO	include/protect.h	58;"	d
-INT_M_CTL	include/const.h	19;"	d
-INT_M_CTLMASK	include/const.h	20;"	d
-INT_S_CTL	include/const.h	21;"	d
-INT_S_CTLMASK	include/const.h	22;"	d
-INT_VECTOR_BOUNDS	include/protect.h	116;"	d
-INT_VECTOR_BREAKPOINT	include/protect.h	114;"	d
-INT_VECTOR_COPROC_ERR	include/protect.h	126;"	d
-INT_VECTOR_COPROC_NOT	include/protect.h	118;"	d
-INT_VECTOR_COPROC_SEG	include/protect.h	120;"	d
-INT_VECTOR_DEBUG	include/protect.h	112;"	d
-INT_VECTOR_DIVIDE	include/protect.h	111;"	d
-INT_VECTOR_DOUBLE_FAULT	include/protect.h	119;"	d
-INT_VECTOR_INVAL_OP	include/protect.h	117;"	d
-INT_VECTOR_INVAL_TSS	include/protect.h	121;"	d
-INT_VECTOR_IRQ0	include/protect.h	129;"	d
-INT_VECTOR_IRQ8	include/protect.h	130;"	d
-INT_VECTOR_NMI	include/protect.h	113;"	d
-INT_VECTOR_OVERFLOW	include/protect.h	115;"	d
-INT_VECTOR_PAGE_FAULT	include/protect.h	125;"	d
-INT_VECTOR_PROTECTION	include/protect.h	124;"	d
-INT_VECTOR_SEG_NOT	include/protect.h	122;"	d
-INT_VECTOR_STACK_FAULT	include/protect.h	123;"	d
+INTERRUPT	include/const.h	25;"	d
+INT_M_CTL	include/const.h	37;"	d
+INT_M_CTLMASK	include/const.h	38;"	d
+INT_S_CTL	include/const.h	39;"	d
+INT_S_CTLMASK	include/const.h	40;"	d
+INT_VECTOR_BOUNDS	include/protect.h	119;"	d
+INT_VECTOR_BREAKPOINT	include/protect.h	117;"	d
+INT_VECTOR_COPROC_ERR	include/protect.h	129;"	d
+INT_VECTOR_COPROC_NOT	include/protect.h	121;"	d
+INT_VECTOR_COPROC_SEG	include/protect.h	123;"	d
+INT_VECTOR_DEBUG	include/protect.h	115;"	d
+INT_VECTOR_DIVIDE	include/protect.h	114;"	d
+INT_VECTOR_DOUBLE_FAULT	include/protect.h	122;"	d
+INT_VECTOR_INVAL_OP	include/protect.h	120;"	d
+INT_VECTOR_INVAL_TSS	include/protect.h	124;"	d
+INT_VECTOR_IRQ0	include/protect.h	132;"	d
+INT_VECTOR_IRQ8	include/protect.h	133;"	d
+INT_VECTOR_NMI	include/protect.h	116;"	d
+INT_VECTOR_OVERFLOW	include/protect.h	118;"	d
+INT_VECTOR_PAGE_FAULT	include/protect.h	128;"	d
+INT_VECTOR_PROTECTION	include/protect.h	127;"	d
+INT_VECTOR_SEG_NOT	include/protect.h	125;"	d
+INT_VECTOR_STACK_FAULT	include/protect.h	126;"	d
 InitKernel	boot/loader.S	/^InitKernel:$/;"	l
 InitKernel_Begin	boot/loader.S	/^InitKernel_Begin:$/;"	l
 InitKernel_NoAction	boot/loader.S	/^InitKernel_NoAction:$/;"	l
-KB_DATA	include/const.h	24;"	d
-KEYBOARD_IRQ	include/const.h	29;"	d
+KB_DATA	include/const.h	49;"	d
+KERNELOBJS	Makefile	/^KERNELOBJS = kernel\/kernel.o kernel\/start.o kernel\/i8259.o \\$/;"	m
+KERNELSTAMP	Makefile	/^KERNELSTAMP = kernel\/.STAMP$/;"	m
+KEYBOARD_IRQ	include/const.h	54;"	d
 KernelFileName	boot/loader.S	/^KernelFileName:			.ascii	"KERNEL  BIN"$/;"	l
 KillMotor	boot/loader.S	/^KillMotor:$/;"	l
 LABEL_CMP_FILENAME	boot/boot.S	/^LABEL_CMP_FILENAME:$/;"	l
@@ -124,8 +135,9 @@ LABEL_SEARCH_IN_ROOT_DIR_BEGIN	boot/boot.S	/^LABEL_SEARCH_IN_ROOT_DIR_BEGIN:$/;"
 LABEL_SEARCH_IN_ROOT_DIR_BEGIN	boot/loader.S	/^LABEL_SEARCH_IN_ROOT_DIR_BEGIN:$/;"	l
 LABEL_START	boot/boot.S	/^LABEL_START:$/;"	l
 LABEL_START	boot/loader.S	/^LABEL_START:$/;"	l
-LD	Makefile	/^export LD=ld$/;"	m
-LDT_SIZE	include/protect.h	71;"	d
+LD	Makefile	/^LD=ld$/;"	m
+LDT_SIZE	include/protect.h	74;"	d
+LIBOBJS	Makefile	/^LIBOBJS = lib\/string.o lib\/klib.o lib\/kliba.o lib\/misc.o$/;"	m
 Limit	boot/include/pm.h	/^.macro Descriptor Base, Limit, Attr$/;"	v
 LoaderFileName	boot/boot.S	/^LoaderFileName:			.ascii	"LOADER  BIN"$/;"	l
 MemChkFail	boot/loader.S	/^MemChkFail:$/;"	l
@@ -134,8 +146,10 @@ MemChkOK	boot/loader.S	/^MemChkOK:$/;"	l
 MemCpy	boot/loader.S	/^MemCpy:$/;"	l
 MemCpy_1	boot/loader.S	/^MemCpy_1:$/;"	l
 MemCpy_2	boot/loader.S	/^MemCpy_2:$/;"	l
-NR_IRQ	include/const.h	26;"	d
-NR_TASKS	include/proc.h	43;"	d
+NO_TASK	include/const.h	27;"	d
+NR_IRQ	include/const.h	51;"	d
+NR_PROCS	include/proc.h	60;"	d
+NR_TASKS	include/proc.h	59;"	d
 OBJCOPY	boot/Makefile	/^OBJCOPY=objcopy$/;"	m
 Offset	boot/include/pm.h	/^.macro Gate  Selector, Offset, PCount, Attr$/;"	v
 PCount	boot/include/pm.h	/^.macro Gate  Selector, Offset, PCount, Attr$/;"	v
@@ -145,17 +159,21 @@ PRIVILEGE_TASK	include/const.h	13;"	d
 PRIVILEGE_USER	include/const.h	14;"	d
 PROCESS	include/proc.h	/^} PROCESS;$/;"	t	typeref:struct:s_proc
 PUBLIC	include/const.h	6;"	d
+RATE_GENERATOR	include/const.h	44;"	d
+RECEIVE	include/const.h	58;"	d
+RECEIVING	include/const.h	19;"	d
+RETVAL	include/const.h	34;"	d
 RPL_TASK	include/const.h	16;"	d
 ReadSector	boot/boot.S	/^ReadSector:$/;"	l
 ReadSector	boot/loader.S	/^ReadSector:$/;"	l
-SA_RPL0	include/protect.h	78;"	d
-SA_RPL1	include/protect.h	79;"	d
-SA_RPL2	include/protect.h	80;"	d
-SA_RPL3	include/protect.h	81;"	d
-SA_RPL_MASK	include/protect.h	77;"	d
-SA_TIG	include/protect.h	84;"	d
-SA_TIL	include/protect.h	85;"	d
-SA_TI_MASK	include/protect.h	83;"	d
+SA_RPL0	include/protect.h	81;"	d
+SA_RPL1	include/protect.h	82;"	d
+SA_RPL2	include/protect.h	83;"	d
+SA_RPL3	include/protect.h	84;"	d
+SA_RPL_MASK	include/protect.h	80;"	d
+SA_TIG	include/protect.h	87;"	d
+SA_TIL	include/protect.h	88;"	d
+SA_TI_MASK	include/protect.h	86;"	d
 SELECTOR_DUMMY	include/protect.h	60;"	d
 SELECTOR_FLAT_C	include/protect.h	61;"	d
 SELECTOR_FLAT_RW	include/protect.h	62;"	d
@@ -165,20 +183,30 @@ SELECTOR_KERNEL_GS	include/protect.h	69;"	d
 SELECTOR_LDT_FIRST	include/protect.h	65;"	d
 SELECTOR_TSS	include/protect.h	64;"	d
 SELECTOR_VIDEO	include/protect.h	63;"	d
+SEND	include/const.h	57;"	d
+SENDING	include/const.h	18;"	d
 STACK_FRAME	include/proc.h	/^} STACK_FRAME;$/;"	t	typeref:struct:s_stackframe
-STACK_SIZE_TESTA	include/proc.h	45;"	d
-STACK_SIZE_TESTB	include/proc.h	46;"	d
-STACK_SIZE_TOTAL	include/proc.h	48;"	d
+STACK_SIZE_SYSTASK	include/proc.h	64;"	d
+STACK_SIZE_TESTA	include/proc.h	62;"	d
+STACK_SIZE_TESTB	include/proc.h	63;"	d
+STACK_SIZE_TOTAL	include/proc.h	66;"	d
+SYSVEC	include/const.h	22;"	d
 SetupPaging	boot/loader.S	/^SetupPaging:$/;"	l
 SetupPaging_1	boot/loader.S	/^SetupPaging_1:$/;"	l
 SetupPaging_2	boot/loader.S	/^SetupPaging_2:$/;"	l
 StackSpace	boot/loader.S	/^StackSpace:		.space	512, 0$/;"	l
+TARGETS	Makefile	/^TARGETS = boot\/LOADER.BIN kernel\/KERNEL.BIN floppy.img$/;"	m
 TASK	include/proc.h	/^} TASK;$/;"	t	typeref:struct:s_task
+TASK_SYS	kernel/main.c	99;"	d	file:
+TIMER0	include/const.h	42;"	d
+TIMER_FREQ	include/const.h	46;"	d
+TIMER_MODE	include/const.h	43;"	d
 TRIM_FLAGS	boot/Makefile	/^TRIM_FLAGS=-R .pdr -R .comment -R .note -S -O binary$/;"	m
 TSS	include/protect.h	/^} TSS;$/;"	t	typeref:struct:s_tss
-TestA	kernel/main.c	/^void TestA() {$/;"	f
-TestB	kernel/main.c	/^void TestB() {$/;"	f
+TestA	kernel/main.c	/^PUBLIC void TestA() {$/;"	f
+TestB	kernel/main.c	/^PUBLIC void TestB() {$/;"	f
 _ARDStruct	boot/loader.S	/^_ARDStruct:$/;"	l
+_GLOBAL_H_	include/global.h	2;"	d
 _MemChkBuf	boot/loader.S	/^_MemChkBuf:		.space	256, 0$/;"	l
 _SIMPHINIX_CONST_H_	include/const.h	2;"	d
 _SIMPHINIX_GLOBAL_VARIABLES_HERE_	kernel/global.c	1;"	d	file:
@@ -195,10 +223,16 @@ _dwLengthLow	boot/loader.S	/^	_dwLengthLow:		.4byte	0$/;"	l
 _dwMCRNumber	boot/loader.S	/^_dwMCRNumber:	.4byte	0$/;"	l
 _dwMemSize	boot/loader.S	/^_dwMemSize:		.4byte	0$/;"	l
 _dwType	boot/loader.S	/^	_dwType:			.4byte	0$/;"	l
+_s_call	kernel/kernel.S	/^_s_call:$/;"	l
+_sendrec	kernel/syscall.S	/^_sendrec:$/;"	l
 _start	kernel/kernel.S	/^_start:$/;"	l
+_sys_call	kernel/proc.c	/^PUBLIC int _sys_call(int function, int src_dest, message* msg) {$/;"	f
 ah	boot/include/pm.h	/^    movb    %ah, (\\SegDesc + 7)$/;"	v
 al	boot/include/pm.h	/^    movb    %al, (\\SegDesc + 4)$/;"	v
 al	boot/lib.h	/^	test	%al, %al$/;"	v
+assert	include/const.h	63;"	d
+assert	include/const.h	66;"	d
+assertion_failure	lib/misc.c	/^PUBLIC void assertion_failure(char* exp, char* file, $/;"	f
 attr	include/protect.h	/^	t_8	attr;$/;"	m	struct:s_gate
 attr1	include/protect.h	/^	t_8		attr1;$/;"	m	struct:s_descriptor
 ax	boot/include/pm.h	/^    movw    %ax, (\\SegDesc + 2)$/;"	v
@@ -208,6 +242,7 @@ backlink	include/protect.h	/^	t_32	backlink;$/;"	m	struct:s_tss
 base_high	include/protect.h	/^	t_8		base_high;$/;"	m	struct:s_descriptor
 base_low	include/protect.h	/^	t_16	base_low;$/;"	m	struct:s_descriptor
 base_mid	include/protect.h	/^	t_8		base_mid;$/;"	m	struct:s_descriptor
+block	kernel/proc.c	/^PRIVATE void block(PROCESS* p) {$/;"	f
 bounds_check	kernel/kernel.S	/^bounds_check:$/;"	l
 breakpoint_exception	kernel/kernel.S	/^breakpoint_exception:$/;"	l
 clock_handler	kernel/clock.c	/^PUBLIC void clock_handler(int irq) {$/;"	f
@@ -221,6 +256,7 @@ cs	include/protect.h	/^	t_32	cs;$/;"	m	struct:s_tss
 csinit	kernel/kernel.S	/^csinit:$/;"	l
 cstart	kernel/start.c	/^PUBLIC void cstart() {$/;"	f
 dcount	include/protect.h	/^	t_8	dcount;$/;"	m	struct:s_gate
+deadlock	kernel/proc.c	/^PRIVATE int deadlock(int src, int dest) {$/;"	f
 delay	lib/klib.c	/^PUBLIC void delay(int count) {$/;"	f
 dis_already	lib/kliba.S	/^dis_already:$/;"	l
 disable_0	lib/kliba.S	/^disable_0:$/;"	l
@@ -272,8 +308,10 @@ fs	include/protect.h	/^	t_32	fs;$/;"	m	struct:s_tss
 gdt	include/global.h	/^EXTERN DESCRIPTOR	gdt[GDT_SIZE];$/;"	v
 gdt_ptr	include/global.h	/^EXTERN t_8			gdt_ptr[6];$/;"	v
 general_protection	kernel/kernel.S	/^general_protection:$/;"	l
+get_ticks	kernel/main.c	/^PUBLIC int get_ticks() {$/;"	f
 gs	include/proc.h	/^	t_32 gs;$/;"	m	struct:s_stackframe
 gs	include/protect.h	/^	t_32	gs;$/;"	m	struct:s_tss
+has_int_msg	include/proc.h	/^	int has_int_msg;$/;"	m	struct:s_proc
 hwint00	kernel/kernel.S	/^hwint00: hwint_master 0$/;"	l
 hwint01	kernel/kernel.S	/^hwint01: hwint_master 1$/;"	l
 hwint02	kernel/kernel.S	/^hwint02: hwint_master 2$/;"	l
@@ -312,26 +350,66 @@ kernel_esp	include/proc.h	/^	t_32 kernel_esp;$/;"	m	struct:s_stackframe
 kernel_main	kernel/main.c	/^PUBLIC int kernel_main() {$/;"	f
 keyboard_handler	kernel/keyboard.c	/^PUBLIC void keyboard_handler(int irq) {$/;"	f
 ldt	include/protect.h	/^	t_32	ldt;$/;"	m	struct:s_tss
+ldt_seg_linear	kernel/proc.c	/^PUBLIC int ldt_seg_linear(PROCESS* p, int idx) {$/;"	f
 ldt_sel	include/proc.h	/^	t_16 ldt_sel;$/;"	m	struct:s_proc
 ldts	include/proc.h	/^	DESCRIPTOR ldts[LDT_SIZE];$/;"	m	struct:s_proc
 limit_high_attr2	include/protect.h	/^	t_8		limit_high_attr2;$/;"	m	struct:s_descriptor
 limit_low	include/protect.h	/^	t_16	limit_low;$/;"	m	struct:s_descriptor
+m1	include/type.h	/^		struct mess1 m1;$/;"	m	union:__anon1::__anon2	typeref:struct:__anon1::__anon2::mess1
+m1i1	include/type.h	/^	int m1i1;$/;"	m	struct:mess1
+m1i2	include/type.h	/^	int m1i2;$/;"	m	struct:mess1
+m1i3	include/type.h	/^	int m1i3;$/;"	m	struct:mess1
+m1i4	include/type.h	/^	int m1i4;$/;"	m	struct:mess1
+m2	include/type.h	/^		struct mess2 m2;$/;"	m	union:__anon1::__anon2	typeref:struct:__anon1::__anon2::mess2
+m2p1	include/type.h	/^	void* m2p1;$/;"	m	struct:mess2
+m2p2	include/type.h	/^	void* m2p2;$/;"	m	struct:mess2
+m2p3	include/type.h	/^	void* m2p3;$/;"	m	struct:mess2
+m2p4	include/type.h	/^	void* m2p4;$/;"	m	struct:mess2
+m3	include/type.h	/^		struct mess3 m3;$/;"	m	union:__anon1::__anon2	typeref:struct:__anon1::__anon2::mess3
+m3i1	include/type.h	/^	int	m3i1;$/;"	m	struct:mess3
+m3i2	include/type.h	/^	int	m3i2;$/;"	m	struct:mess3
+m3i3	include/type.h	/^	int	m3i3;$/;"	m	struct:mess3
+m3i4	include/type.h	/^	int	m3i4;$/;"	m	struct:mess3
+m3l1	include/type.h	/^	t_64	m3l1;$/;"	m	struct:mess3
+m3l2	include/type.h	/^	t_64	m3l2;$/;"	m	struct:mess3
+m3p1	include/type.h	/^	void*	m3p1;$/;"	m	struct:mess3
+m3p2	include/type.h	/^	void*	m3p2;$/;"	m	struct:mess3
 memcpy	lib/string.S	/^memcpy:$/;"	l
 memset	lib/string.S	/^memset:$/;"	l
+mess1	include/type.h	/^struct mess1 {$/;"	s
+mess2	include/type.h	/^struct mess2 {$/;"	s
+mess3	include/type.h	/^struct mess3 {$/;"	s
+message	include/type.h	/^} message;$/;"	t	typeref:struct:__anon1
+msg_receive	kernel/proc.c	/^PRIVATE int msg_receive(PROCESS* current, int src, message* m)$/;"	f
+msg_send	kernel/proc.c	/^PRIVATE int msg_send(PROCESS* current, int dest, message* m) {$/;"	f
+msgtype	include/const.h	/^enum msgtype {$/;"	g
 name	include/proc.h	/^	char name[32];$/;"	m	struct:s_task
+next_sending	include/proc.h	/^	struct s_proc* next_sending;$/;"	m	struct:s_proc	typeref:struct:s_proc::s_proc
 nmi	kernel/kernel.S	/^nmi:$/;"	l
 no_remainder	boot/loader.S	/^no_remainder:$/;"	l
+nr_tty	include/proc.h	/^	int nr_tty;$/;"	m	struct:s_proc
 offset_high	include/protect.h	/^	t_16	offset_high;$/;"	m	struct:s_gate
 offset_low	include/protect.h	/^	t_16	offset_low;$/;"	m	struct:s_gate
 out_byte	lib/kliba.S	/^out_byte:$/;"	l
 overflow	kernel/kernel.S	/^overflow:$/;"	l
+p_flags	include/proc.h	/^	int p_flags;$/;"	m	struct:s_proc
+p_msg	include/proc.h	/^	message* p_msg;$/;"	m	struct:s_proc
 p_name	include/proc.h	/^	char p_name[16];$/;"	m	struct:s_proc
 p_proc_ready	include/global.h	/^EXTERN PROCESS*		p_proc_ready;$/;"	v
+p_recvfrom	include/proc.h	/^	int p_recvfrom;$/;"	m	struct:s_proc
+p_sendto	include/proc.h	/^	int p_sendto;$/;"	m	struct:s_proc
 page_fault	kernel/kernel.S	/^page_fault:$/;"	l
+phys_copy	include/string.h	6;"	d
 pid	include/proc.h	/^	t_32 pid;$/;"	m	struct:s_proc
+priority	include/proc.h	/^	int priority;$/;"	m	struct:s_proc
+priority	include/proc.h	/^	int priority;$/;"	m	struct:s_task
+proc2pid	include/proc.h	57;"	d
+proc_ptr	include/global.h	/^EXTERN PROCESS*		proc_ptr;$/;"	v
 proc_table	kernel/global.c	/^PUBLIC PROCESS proc_table[NR_TASKS];$/;"	v
 put_irq_handler	kernel/i8259.c	/^PUBLIC void put_irq_handler(int irq, irq_handler handler) {$/;"	f
+q_sending	include/proc.h	/^	struct s_proc* q_sending;$/;"	m	struct:s_proc	typeref:struct:s_proc::s_proc
 regs	include/proc.h	/^	STACK_FRAME regs;$/;"	m	struct:s_proc
+reset_msg	kernel/proc.c	/^PUBLIC void reset_msg(message* p)$/;"	f
 restart	kernel/kernel.S	/^restart:$/;"	l
 restart_reenter	kernel/kernel.S	/^restart_reenter:$/;"	l
 retaddr	include/proc.h	/^	t_32 retaddr;$/;"	m	struct:s_stackframe
@@ -342,11 +420,14 @@ s_stackframe	include/proc.h	/^typedef struct s_stackframe {$/;"	s
 s_task	include/proc.h	/^typedef struct s_task {$/;"	s
 s_tss	include/protect.h	/^typedef struct s_tss {$/;"	s
 save	kernel/kernel.S	/^save:$/;"	l
+schedule	kernel/proc.c	/^PUBLIC void schedule() {$/;"	f
 seg2phys	kernel/protect.c	/^PUBLIC t_32 seg2phys(t_16 seg) {$/;"	f
 segment_not_present	kernel/kernel.S	/^segment_not_present:$/;"	l
 selector	include/protect.h	/^	t_16	selector;$/;"	m	struct:s_gate
+sendrec	kernel/proc.c	/^PUBLIC int sendrec(int function, int src_dest, message* msg) {$/;"	f
 si	boot/lib.h	/^	mov		%si, 2(%esp)$/;"	v
 single_step_exception	kernel/kernel.S	/^single_step_exception:$/;"	l
+source	include/type.h	/^	int source;$/;"	m	struct:__anon1
 spurious_irq	kernel/i8259.c	/^PUBLIC void spurious_irq(int irq) {$/;"	f
 ss	include/proc.h	/^	t_32 ss;$/;"	m	struct:s_stackframe
 ss	include/protect.h	/^	t_32	ss;$/;"	m	struct:s_tss
@@ -356,16 +437,24 @@ ss2	include/protect.h	/^	t_32	ss2;$/;"	m	struct:s_tss
 stack_exception	kernel/kernel.S	/^stack_exception:$/;"	l
 stacksize	include/proc.h	/^	int stacksize;$/;"	m	struct:s_task
 strcpy	lib/string.S	/^strcpy:$/;"	l
-t_16	include/type.h	/^typedef unsigned short	t_16;$/;"	t
-t_32	include/type.h	/^typedef unsigned int	t_32;$/;"	t
-t_8	include/type.h	/^typedef unsigned char	t_8;$/;"	t
+t_16	include/type.h	/^typedef unsigned short		t_16;$/;"	t
+t_32	include/type.h	/^typedef unsigned int		t_32;$/;"	t
+t_64	include/type.h	/^typedef unsigned long long	t_64;$/;"	t
+t_8	include/type.h	/^typedef unsigned char		t_8;$/;"	t
 t_pf_task	include/type.h	/^typedef void (*t_pf_task)();$/;"	t
-t_port	include/type.h	/^typedef unsigned int	t_port;$/;"	t
+t_port	include/type.h	/^typedef unsigned int		t_port;$/;"	t
 task_stack	kernel/global.c	/^PUBLIC char task_stack[STACK_SIZE_TOTAL];$/;"	v
+task_sys	kernel/systask.c	/^PUBLIC void task_sys() {$/;"	f
 task_table	kernel/global.c	/^PUBLIC TASK task_table[NR_TASKS] = {$/;"	v
+ticks	include/global.h	/^EXTERN int			ticks;$/;"	v
+ticks	include/proc.h	/^	int ticks;$/;"	m	struct:s_proc
 trap	include/protect.h	/^	t_16	trap;$/;"	m	struct:s_tss
 tss	include/global.h	/^EXTERN TSS			tss;$/;"	v
-vir2phys	include/protect.h	132;"	d
+type	include/type.h	/^	int type;$/;"	m	struct:__anon1
+u	include/type.h	/^	} u;$/;"	m	struct:__anon1	typeref:union:__anon1::__anon2
+unblock	kernel/proc.c	/^PRIVATE void unblock(PROCESS* p) {$/;"	f
+va2la	kernel/proc.c	/^PUBLIC void* va2la(int pid, void* va) {$/;"	f
+vir2phys	include/protect.h	135;"	d
 wRootDirSizeForLoop	boot/boot.S	/^wRootDirSizeForLoop:	.2byte	RootDirSectors$/;"	l
 wRootDirSizeForLoop	boot/loader.S	/^wRootDirSizeForLoop:	.2byte	RootDirSectors$/;"	l
 wSectorNo	boot/boot.S	/^wSectorNo:				.2byte	0$/;"	l

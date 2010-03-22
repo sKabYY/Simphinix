@@ -8,8 +8,9 @@
 #include "global.h"
 
 PUBLIC TASK task_table[NR_TASKS] = {
+	{TestB, 5, STACK_SIZE_TESTB, "TestB"},
 	{TestA, 10, STACK_SIZE_TESTA, "TestA"},
-	{TestB, 5, STACK_SIZE_TESTB, "TestB"}
+	{task_sys, 10, STACK_SIZE_SYSTASK, "systask"}
 };
 
 PUBLIC PROCESS proc_table[NR_TASKS];

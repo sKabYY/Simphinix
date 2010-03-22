@@ -1,5 +1,3 @@
-MANIFEST 
-
 kernel/KERNEL.BIN
 kernel/.STAMP
 boot/LOADER.BIN
@@ -9,5 +7,5 @@ bochsout.txt
 *.o
 *~
 .*.swp
+tags
 
-expored-translation

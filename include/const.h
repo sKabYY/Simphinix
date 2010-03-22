@@ -6,6 +6,8 @@
 #define PUBLIC
 #define PRIVATE static
 
+#define NULL (void*)0
+
 #define GDT_SIZE	128
 #define	IDT_SIZE	256
 
@@ -15,8 +17,23 @@
 
 #define RPL_TASK	SA_RPL1
 
+#define SENDING		0x02
+#define RECEIVING	0x04
+
 /* system call */
 #define SYSVEC		0x32
+
+/* tasks */
+#define INTERRUPT	-10
+#define ANY			(NR_TASKS + NR_PROCS + 10)
+#define NO_TASK		(NR_TASKS + NR_PROCS + 20)
+
+enum msgtype {
+	HARD_INT = 1,
+	GET_TICKS,
+};
+
+#define RETVAL		u.m3.m3i1
 
 /* 8259A interrupt controller ports. */
 #define INT_M_CTL     0x20 /* I/O port for interrupt controller       <Master> */
@@ -38,9 +55,15 @@
 #define CLOCK_IRQ	0
 #define KEYBOARD_IRQ	1
 
+/* ipc */
+#define SEND		1
+#define RECEIVE		2
+#define BOTH		3 /* BOTH = (SEND|RECEIVE) */
+
+#define ASSERT
 #ifdef ASSERT
 void assert_failure(char* exp, char* file, char* base_file, int line);
-#define assert(exp) if (exp) ; \
+#define assert(exp) if (exp); \
 	else assertion_failure(#exp, __FILE__, __BASE_FILE__, __LINE__)
 #else
 #define assert(exp)

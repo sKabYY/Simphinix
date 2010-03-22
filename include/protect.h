@@ -68,6 +68,9 @@ typedef struct s_tss {
 #define	SELECTOR_KERNEL_DS	SELECTOR_FLAT_RW
 #define	SELECTOR_KERNEL_GS	SELECTOR_VIDEO
 
+#define INDEX_LDT_C		0
+#define INDEX_LDT_RW	1
+
 #define LDT_SIZE		2
 #define INDEX_TSS		4
 #define INDEX_LDT_FIRST	5

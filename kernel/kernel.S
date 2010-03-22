@@ -4,6 +4,7 @@
 .extern cstart
 .extern exception_handler
 .extern spurious_irq
+.extern _sys_call
 
 /* import global variable */
 .extern gdt_ptr
@@ -211,7 +212,6 @@ exception:
 _s_call:
 	call	save
 	sti
-	push	%esi
 
 	push	%ebx /* msg                  */
 	push	%eax /* src/dst              */
@@ -219,7 +219,7 @@ _s_call:
 	call	_sys_call
 	add		$3*4, %esp
 
-	pop		%esi
+	mov		%eax, (EAXREG-P_STACKBASE)(%esi)
 	cli
 	ret
 
@@ -249,8 +249,8 @@ save:
 restart:
 	mov		(p_proc_ready), %esp
 	lldt	P_LDT_SEL(%esp)
-	lea		P_LDT_SEL(%esp), %eax
-	mov		%eax, (tss+TSS3_S_SP0)
+	lea		P_LDT_SEL(%esp), %esi
+	mov		%esi, (tss+TSS3_S_SP0)
 restart_reenter:
 	decl	(k_reenter)
 	pop		%gs

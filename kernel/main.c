@@ -11,6 +11,7 @@
  *======================================================================*/
 PUBLIC int kernel_main() {
 	disp_str("-----\"kernel_main\" begins-----\n");
+//	disp_pos = 0;
 
 	TASK* p_task = task_table;
 	PROCESS* p_proc	= proc_table;
@@ -22,6 +23,12 @@ PUBLIC int kernel_main() {
 		strcpy(p_proc->p_name, p_task->name);
 		p_proc->ticks = p_proc->priority = p_task->priority;
 		p_proc->pid = i;
+		p_proc->p_flags = 0;
+		p_proc->p_recvfrom = NO_TASK;
+		p_proc->p_sendto = NO_TASK;
+		p_proc->has_int_msg = 0;
+		p_proc->q_sending = NULL;
+		p_proc->next_sending = NULL;
 
 		p_proc->ldt_sel	= selector_ldt;
 		memcpy(&p_proc->ldts[0], &gdt[SELECTOR_KERNEL_CS>>3], 
@@ -55,9 +62,9 @@ PUBLIC int kernel_main() {
 		selector_ldt += (1 << 3);
 	}
 
-	p_proc_ready = proc_table;
+	proc_ptr = p_proc_ready = proc_table;
 	k_reenter = 0;
-	ticks = 0;
+	ticks = 9;
 
 	init_clock();
 	init_keyboard();
@@ -70,12 +77,10 @@ PUBLIC int kernel_main() {
 /*======================================================================*
                                TestA
  *======================================================================*/
-void TestA() {
-//	int i = 0;
-//	__asm__ volatile("int $0x32");
+PUBLIC void TestA() {
 	while(1) {
 		disp_str("A");
-//		disp_int(i++);
+		disp_int(get_ticks());
 		disp_str(".");
 		delay(1);
 	}
@@ -85,13 +90,21 @@ void TestA() {
 /*======================================================================*
                                TestB
  *======================================================================*/
-void TestB() {
-//	int i = 0x1000;
+PUBLIC void TestB() {
 	while (1) {
 		disp_str("B");
-//		disp_int(i++);
+		disp_int(get_ticks());
 		disp_str(".");
 		delay(1);
 	}
+}
+
+#define TASK_SYS 2
+PUBLIC int get_ticks() {
+	message msg;
+	reset_msg(&msg);
+	msg.type = GET_TICKS;
+	sendrec(BOTH, TASK_SYS, &msg);
+	return msg.RETVAL;
 }
 
