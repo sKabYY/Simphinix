@@ -62,6 +62,8 @@ PUBLIC void init_clock() {
 }
 
 PUBLIC void clock_handler(int irq) {
+	current_pid = KERNEL;
+//dbgprtint(current_pid);
 	ticks++;
 	proc_ptr->ticks--;
 

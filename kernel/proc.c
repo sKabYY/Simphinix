@@ -14,8 +14,6 @@ PRIVATE int deadlock(int src, int dest);
 
 PUBLIC int _sys_call(int function, 
 		int caller_nr, int src_dest, message* msg) {
-//dbgprtstr(proc_ptr->p_name);dbgprtint(proc_ptr->pid);dbgprtstr("\n");
-
 	int ret = 0;
 	PROCESS* caller_ptr = proc_table + caller_nr;
 	message* mla = (message*)va2la(caller_nr, msg);
@@ -56,7 +54,6 @@ PUBLIC int sendrec(int function, int src_dest, message* msg) {
 			break;
 		case SEND:
 		case RECEIVE:
-//dbgprtstr(proc_ptr->p_name);dbgprtint(proc_ptr->pid);dbgprtstr("\n");
 			ret = _sendrec(function, caller_nr, src_dest, msg);
 			break;
 		default:
@@ -125,8 +122,6 @@ PUBLIC void schedule() {
 /*	}*/
 /*	proc_ptr = p_proc_ready;*/
 /*	current_pid = proc2pid(proc_ptr);*/
-//dbgprtint(current_pid);
-//dbgprtstr(proc_ptr->p_name);dbgprtint(proc_ptr->pid);dbgprtstr("\n");
 	notify(CLOCK);
 //	message msg;
 //	reset_msg(&msg);
