@@ -9,51 +9,55 @@ PRIVATE void block(PROCESS* p);
 PRIVATE void unblock(PROCESS* p);
 PRIVATE int msg_send(PROCESS* current, int dest, message* m);
 PRIVATE int msg_receive(PROCESS* current, int src, message* m);
+PRIVATE int msg_notify(PROCESS* current, int dest, message* m);
 PRIVATE int deadlock(int src, int dest);
 
-PUBLIC int _sys_call(int function, int src_dest, message* msg) {
-	assert(k_reenter == 0);
+PUBLIC int _sys_call(int function, 
+		int caller_nr, int src_dest, message* msg) {
+//dbgprtstr(proc_ptr->p_name);dbgprtint(proc_ptr->pid);dbgprtstr("\n");
 
 	int ret = 0;
-	int caller = proc2pid(proc_ptr);
-	message* mla = (message*)va2la(caller, msg);
-	mla->source = caller;
+	PROCESS* caller_ptr = proc_table + caller_nr;
+	message* mla = (message*)va2la(caller_nr, msg);
+	mla->source = caller_nr;
 
 	assert(mla->source != src_dest);
 
 	if (function == SEND) {
-//dbgprtstr("Q");
-		ret = msg_send(proc_ptr, src_dest, msg);
-//dbgprtstr("W");
-		if (ret != 0) return ret;
+		assert(k_reenter == 0);
+		ret = msg_send(caller_ptr, src_dest, msg);
 	}
 	else if (function == RECEIVE) {
-		ret = msg_receive(proc_ptr, src_dest, msg);
-		if (ret != 0) return ret;
+		assert(k_reenter == 0);
+		ret = msg_receive(caller_ptr, src_dest, msg);
+	}
+	else if (function == NOTIFY) {
+		ret = msg_notify(caller_ptr, src_dest, msg);
 	}
 	else {
 		//TODO
 	}
-//dbgprtstr("E");
-//dbgprtstr(proc_ptr->p_name);
-	return 0;
+
+	return ret;
 }
 
 PUBLIC int sendrec(int function, int src_dest, message* msg) {
 	int ret = 0;
+	int caller_nr = current_pid;
 	if (function == RECEIVE)
 		reset_msg(msg);
 	switch (function) {
 		case BOTH:
-			ret = _sendrec(SEND, src_dest, msg);
+			ret = _sendrec(SEND, caller_nr, src_dest, msg);
 //dbgprtstr("\nsr: ");
 //dbgprtstr(proc_ptr->p_name);dbgprtint(ret);dbgprtstr("\n");
 			if (ret == 0)
-				ret = _sendrec(RECEIVE, src_dest, msg);
+				ret = _sendrec(RECEIVE, caller_nr, src_dest, msg);
 			break;
 		case SEND:
 		case RECEIVE:
-			ret = _sendrec(function, src_dest, msg);
+//dbgprtstr(proc_ptr->p_name);dbgprtint(proc_ptr->pid);dbgprtstr("\n");
+			ret = _sendrec(function, caller_nr, src_dest, msg);
 			break;
 		default:
 			assert( (function == BOTH) || 
@@ -62,6 +66,19 @@ PUBLIC int sendrec(int function, int src_dest, message* msg) {
 			break;
 	}
 	return ret;
+}
+
+PUBLIC int notify(int dest) {
+//dbgprtstr("notify: ");
+//dbgprtstr(proc_ptr->p_name);dbgprtint(current_pid);dbgprtstr("\n");
+	message msg;
+	int caller_nr = current_pid;
+	reset_msg(&msg);
+	msg.source = caller_nr;
+	if (caller_nr == KERNEL) {
+		msg.type = HARD_INT;
+	}
+	return _sendrec(NOTIFY, caller_nr, dest, &msg);
 }
 
 PUBLIC int ldt_seg_linear(PROCESS* p, int idx) {
@@ -85,35 +102,47 @@ PUBLIC void reset_msg(message* p)
 }
 
 PUBLIC void schedule() {
-	PROCESS* p;
-	int greatest_ticks = 0;
-//	disp_str(" ");
-	while (!greatest_ticks) {
-		for (p = proc_table; p < proc_table + NR_TASKS; p++) {
-//			dbgprtstr(p->p_name);
-//			dbgprtint(p->p_flags);
-//			dbgprtstr(" ");
-			if (p->p_flags == 0) {
-				if (p->ticks > greatest_ticks) {
-					greatest_ticks = p->ticks;
-					p_proc_ready = p;
-				}
-			}
-		}
-		if (!greatest_ticks) {
-			for (p = proc_table; p < proc_table + NR_TASKS; p++) {
-				if (p->p_flags == 0)
-					p->ticks = p->priority;
-			}
-		}
-	}
-	proc_ptr = p_proc_ready;
-//	disp_str(proc_ptr->p_name);
+/*	PROCESS* p;*/
+/*	int greatest_ticks = 0;*/
+/*	while (!greatest_ticks) {*/
+/*		for (p = proc_table; p < proc_table + NR_TASKS + NR_PROCS; p++) {*/
+/*//			dbgprtstr(p->p_name);*/
+/*//			dbgprtint(p->p_flags);*/
+/*//			dbgprtstr(" ");*/
+/*			if (p->p_flags == 0) {*/
+/*				if (p->ticks > greatest_ticks) {*/
+/*					greatest_ticks = p->ticks;*/
+/*					p_proc_ready = p;*/
+/*				}*/
+/*			}*/
+/*		}*/
+/*		if (!greatest_ticks) {*/
+/*			for (p = proc_table; p < proc_table + NR_TASKS+NR_PROCS; p++) {*/
+/*				if (p->p_flags == 0)*/
+/*					p->ticks = p->priority;*/
+/*			}*/
+/*		}*/
+/*	}*/
+/*	proc_ptr = p_proc_ready;*/
+/*	current_pid = proc2pid(proc_ptr);*/
+//dbgprtint(current_pid);
+//dbgprtstr(proc_ptr->p_name);dbgprtint(proc_ptr->pid);dbgprtstr("\n");
+	notify(CLOCK);
+//	message msg;
+//	reset_msg(&msg);
+//	msg.source = KERNEL;
+//	msg.type = HARD_INT;
+//	msg_notify(proc_table+KERNEL, CLOCK, &msg);
+	if (proc_ptr == p_proc_ready)
+		proc_ptr = proc_table + CLOCK;
+	else
+		proc_ptr = p_proc_ready;
 }
 
 PRIVATE void block(PROCESS* p) {
 	assert(p->p_flags);
 	schedule();
+//	restart();
 }
 
 PRIVATE void unblock(PROCESS* p) {
@@ -206,7 +235,7 @@ PRIVATE int msg_receive(PROCESS* current, int src, message* m)
 	PROCESS* p_from = 0;
 	PROCESS* prev = 0;
 	int copyok = 0;
-//dbgprtstr("\nrecv: ");
+//dbgprtstr("recv: ");
 //dbgprtstr(p_who_wanna_recv->p_name);dbgprtstr("\n");
 
 	assert(proc2pid(p_who_wanna_recv) != src);
@@ -318,6 +347,26 @@ PRIVATE int msg_receive(PROCESS* current, int src, message* m)
 		assert(p_who_wanna_recv->p_recvfrom != NO_TASK);
 		assert(p_who_wanna_recv->p_sendto == NO_TASK);
 		assert(p_who_wanna_recv->has_int_msg == 0);
+	}
+	return 0;
+}
+
+PRIVATE int msg_notify(PROCESS* current, int dest, message* m) {
+	PROCESS* sender = current;
+	PROCESS* p_dest = proc_table + dest;
+//dbgprtstr("notify: ");
+//dbgprtstr(current->p_name);dbgprtint(current_pid);dbgprtstr("\n");
+
+	if ((p_dest->p_flags & RECEIVING) &&
+		(p_dest->p_recvfrom == proc2pid(sender) ||
+		 p_dest->p_recvfrom == ANY)) {
+		phys_copy(va2la(dest, p_dest->p_msg),
+				va2la(proc2pid(sender), m),
+				sizeof(message));
+		p_dest->p_msg = 0;
+		p_dest->p_flags &= ~RECEIVING;
+		p_dest->p_recvfrom = NO_TASK;
+		unblock(p_dest);
 	}
 	return 0;
 }

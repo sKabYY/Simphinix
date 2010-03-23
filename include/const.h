@@ -19,6 +19,7 @@
 
 #define SENDING		0x02
 #define RECEIVING	0x04
+#define UNRUNNABLE	0x08
 
 /* system call */
 #define SYSVEC		0x32
@@ -27,6 +28,9 @@
 #define INTERRUPT	-10
 #define ANY			(NR_TASKS + NR_PROCS + 10)
 #define NO_TASK		(NR_TASKS + NR_PROCS + 20)
+
+#define CLOCK		0
+#define SYSTEM		1
 
 enum msgtype {
 	HARD_INT = 1,
@@ -52,6 +56,7 @@ enum msgtype {
 
 #define NR_IRQ		16
 
+#define KERNEL		-1
 #define CLOCK_IRQ	0
 #define KEYBOARD_IRQ	1
 
@@ -59,8 +64,8 @@ enum msgtype {
 #define SEND		1
 #define RECEIVE		2
 #define BOTH		3 /* BOTH = (SEND|RECEIVE) */
+#define NOTIFY		4
 
-#define ASSERT
 #ifdef ASSERT
 void assert_failure(char* exp, char* file, char* base_file, int line);
 #define assert(exp) if (exp); \

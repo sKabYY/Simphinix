@@ -5,6 +5,7 @@
 .extern exception_handler
 .extern spurious_irq
 .extern _sys_call
+.extern current_pid
 
 /* import global variable */
 .extern gdt_ptr
@@ -215,9 +216,10 @@ _s_call:
 
 	push	%ebx /* msg                  */
 	push	%eax /* src/dst              */
+	push	%edx /* caller_nr            */
 	push	%ecx /* SEND/RECEIVE/SENDREC */
 	call	_sys_call
-	add		$3*4, %esp
+	add		$4*4, %esp
 
 	mov		%eax, (EAXREG-P_STACKBASE)(%esi)
 	cli
@@ -238,6 +240,7 @@ save:
 	incl	(k_reenter)
 	cmpl	$0, (k_reenter)
 	jne		.save_1
+	movl	$KERNEL, (current_pid)
 	mov		$StackTop, %esp
 	pushl	$restart
 	jmp		*(RETADR-P_STACKBASE)(%esi)
@@ -247,10 +250,12 @@ save:
 
 
 restart:
-	mov		(p_proc_ready), %esp
+	mov		(proc_ptr), %esp
 	lldt	P_LDT_SEL(%esp)
-	lea		P_LDT_SEL(%esp), %esi
+	lea		P_STACKTOP(%esp), %esi
 	mov		%esi, (tss+TSS3_S_SP0)
+	movl	P_PID(%esp), %esi
+	mov		%esi, (current_pid)
 restart_reenter:
 	decl	(k_reenter)
 	pop		%gs

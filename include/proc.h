@@ -27,14 +27,14 @@ typedef struct s_stackframe {
 
 typedef struct s_proc {
 	STACK_FRAME regs;
+	int pid;
 
 	t_16 ldt_sel;
 	DESCRIPTOR ldts[LDT_SIZE];
 
-	int ticks;
+	clock_t ticks;
 	int priority;
 
-	t_32 pid;
 	char p_name[16];
 
 	int p_flags;
@@ -49,21 +49,18 @@ typedef struct s_proc {
 
 typedef struct s_task {
 	t_pf_task initial_eip;
-	int priority;
 	int stacksize;
 	char name[32];
 } TASK;
 
 #define proc2pid(x) (x - proc_table)
 
-#define NR_TASKS 3
-#define NR_PROCS 0
+#define NR_TASKS 2
+#define NR_PROCS 2
 
-#define STACK_SIZE_TESTA 0x8000
-#define STACK_SIZE_TESTB 0x8000
-#define STACK_SIZE_SYSTASK 0x8000
+#define STACK_SIZE_PP 0x8000
 
-#define STACK_SIZE_TOTAL (STACK_SIZE_TESTA + STACK_SIZE_TESTB + STACK_SIZE_SYSTASK)
+#define STACK_SIZE_TOTAL (STACK_SIZE_PP * (NR_TASKS+NR_PROCS))
 
 #endif
 

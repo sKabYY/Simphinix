@@ -18,7 +18,8 @@
 .set	ESPREG,			EFLAGSREG + 4
 .set	SSREG,			ESPREG + 4
 .set	P_STACKTOP,		SSREG + 4
-.set	P_LDT_SEL,		P_STACKTOP
+.set	P_PID,			P_STACKTOP
+.set	P_LDT_SEL,		P_PID + 4
 .set	P_LDT,			P_LDT_SEL + 4
 
 .set	TSS3_S_SP0,		4
@@ -34,4 +35,6 @@
 .set	EOI,			0x20
 
 .set	SYSVEC,			0x32
+
+.set	KERNEL,			-1
 

@@ -6,6 +6,7 @@ typedef unsigned int		t_32;
 typedef unsigned short		t_16;
 typedef unsigned char		t_8;
 typedef unsigned int		t_port;
+typedef long				clock_t;
 
 typedef void (*int_handler)();
 typedef void (*t_pf_task)();
