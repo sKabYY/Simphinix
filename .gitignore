@@ -4,8 +4,8 @@ boot/LOADER.BIN
 floppy.img
 KERNELASM
 bochsout.txt
+tags
 *.o
 *~
 .*.swp
-tags
 

@@ -215,9 +215,10 @@ _s_call:
 
 	push	%ebx /* msg                  */
 	push	%eax /* src/dst              */
+	push	%edx /* caller_nr            */
 	push	%ecx /* SEND/RECEIVE/SENDREC */
 	call	_sys_call
-	add		$3*4, %esp
+	add		$4*4, %esp
 
 	mov		%eax, (EAXREG-P_STACKBASE)(%esi)
 	cli
@@ -247,7 +248,7 @@ save:
 
 
 restart:
-	mov		(p_proc_ready), %esp
+	mov		(proc_ptr), %esp
 	lldt	P_LDT_SEL(%esp)
 	lea		P_LDT_SEL(%esp), %esi
 	mov		%esi, (tss+TSS3_S_SP0)

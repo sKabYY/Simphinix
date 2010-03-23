@@ -11,7 +11,7 @@
  *======================================================================*/
 PUBLIC int kernel_main() {
 	disp_str("-----\"kernel_main\" begins-----\n");
-//	disp_pos = 0;
+//disp_pos=0;
 
 	TASK* p_task = task_table;
 	PROCESS* p_proc	= proc_table;
@@ -19,9 +19,13 @@ PUBLIC int kernel_main() {
 	t_16 selector_ldt = SELECTOR_LDT_FIRST;
 	int i;
 
-	for (i = 0; i < NR_TASKS; i++) {
+	proc_table[KERNEL].pid = KERNEL;
+	proc_table[KERNEL].p_flags |= UNRUNNABLE;
+
+	for (i = 0; i < NR_TASKS+NR_PROCS; i++) {
+//dbgprtstr("init proc: ");dbgprtstr(p_task->name);dbgprtstr("\n");
 		strcpy(p_proc->p_name, p_task->name);
-		p_proc->ticks = p_proc->priority = p_task->priority;
+		p_proc->ticks = p_proc->priority = 10;
 		p_proc->pid = i;
 		p_proc->p_flags = 0;
 		p_proc->p_recvfrom = NO_TASK;
@@ -62,12 +66,15 @@ PUBLIC int kernel_main() {
 		selector_ldt += (1 << 3);
 	}
 
-	proc_ptr = p_proc_ready = proc_table;
+	proc_current = proc_ptr = p_proc_ready = proc_table;
+	current_pid = proc2pid(proc_ptr);
 	k_reenter = 0;
 	ticks = 9;
 
-	init_clock();
+//	init_clock();
 	init_keyboard();
+
+	disp_str("-----\"kernel_main\" ends-----\n");
 
 	restart();
 
@@ -99,12 +106,11 @@ PUBLIC void TestB() {
 	}
 }
 
-#define TASK_SYS 2
 PUBLIC int get_ticks() {
 	message msg;
 	reset_msg(&msg);
 	msg.type = GET_TICKS;
-	sendrec(BOTH, TASK_SYS, &msg);
+	sendrec(BOTH, SYSTEM, &msg);
 	return msg.RETVAL;
 }
 

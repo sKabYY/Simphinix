@@ -7,13 +7,15 @@
 #include "proc.h"
 #include "global.h"
 
-PUBLIC TASK task_table[NR_TASKS] = {
-	{TestB, 5, STACK_SIZE_TESTB, "TestB"},
-	{TestA, 10, STACK_SIZE_TESTA, "TestA"},
-	{task_sys, 10, STACK_SIZE_SYSTASK, "systask"}
+PUBLIC TASK task_table[NR_TASKS+NR_PROCS] = {
+	{clock_task, STACK_SIZE_PP, "clock"},
+	{task_sys, STACK_SIZE_PP, "system"},
+	{TestA, STACK_SIZE_PP, "TestA"},
+	{TestB, STACK_SIZE_PP, "TestB"}
 };
 
-PUBLIC PROCESS proc_table[NR_TASKS];
+PRIVATE PROCESS proc_images[1+NR_TASKS+NR_PROCS];
+PUBLIC PROCESS* proc_table = proc_images+1;
 PUBLIC char task_stack[STACK_SIZE_TOTAL];
 
 PUBLIC irq_handler irq_table[NR_IRQ];

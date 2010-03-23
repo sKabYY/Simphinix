@@ -8,10 +8,11 @@ KERNELOBJS = kernel/kernel.o kernel/start.o kernel/i8259.o \
 					kernel/proc.o kernel/clock.o kernel/keyboard.o \
 					kernel/syscall.o kernel/systask.o
 LIBOBJS = lib/string.o lib/klib.o lib/kliba.o lib/misc.o
-TARGETS = boot/LOADER.BIN kernel/KERNEL.BIN floppy.img
-KERNELSTAMP = kernel/.STAMP
+KERNELSTAMP=.STAMP
+OBJS=$(KERNELOBJS) $(LIBOBJS)
+TARGETS=buildkernel floppy.img
 
-all: $(KERNELSTAMP) $(TARGETS)
+all: $(TARGETS)
 
 KERNELASM: kernel/KERNEL.BIN
 	echo "/*======HEADER======*/" > KERNELASM
@@ -27,16 +28,16 @@ boot/LOADER.BIN boot/boot.bin: boot/boot.S boot/loader.S \
 			boot/boot.ld boot/lib.h boot/include/*.h
 	$(MAKE) -C boot
 
-kernel/KERNEL.BIN: $(KERNELOBJS) $(LIBOBJS) kernel/kernel.ld
-	$(LD) $(KERNELOBJS) $(LIBOBJS) \
-			-o $@ -T kernel/kernel.ld
+buildkernel: $(KERNELSTAMP) kernel/KERNEL.BIN
 
 $(KERNELSTAMP): include/*.h
 	@$(MAKE) cleankernel;\
-	$(MAKE) kernel/KERNEL.BIN;\
 	touch $(KERNELSTAMP)
 
-copy: floppy.img boot/LOADER.BIN kernel/KERNEL.BIN
+kernel/KERNEL.BIN: $(OBJS) kernel/kernel.ld
+	$(LD) $(OBJS) -o $@ -T kernel/kernel.ld
+
+copy: floppy.img boot/LOADER.BIN buildkernel 
 	@-mkdir -p /tmp/floppy;\
 	sudo mount -o loop floppy.img /tmp/floppy -o fat=12;\
 	sudo cp boot/LOADER.BIN kernel/KERNEL.BIN /tmp/floppy/;\
@@ -45,7 +46,7 @@ copy: floppy.img boot/LOADER.BIN kernel/KERNEL.BIN
 	echo "###copy complete###"
 
 cleankernel:
-	@-rm -f $(KERNELOBJS) $(LIBOBJS) kernel/KERNEL.BIN
+	@-rm -f $(OBJS) kernel/KERNEL.BIN $(KERNELSTAMP)
 
 clean:
 	@$(MAKE) cleankernel

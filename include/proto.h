@@ -45,11 +45,14 @@ PUBLIC void* va2la(int pid, void* va);
 PUBLIC void reset_msg(message* p);
 PUBLIC void schedule();
 PUBLIC int sendrec(int function, int src_dest, message* msg);
+PUBLIC int notify(int dest);
 
 /* syscall.S */
-PUBLIC int _sendrec(int function, int src_dest, message* msg);
+PUBLIC int _sendrec(int function, 
+		int caller_nr, int src_dest, message* msg);
 
 /* clock.c */
+PUBLIC void clock_task();
 PUBLIC void init_clock();
 PUBLIC void clock_handler(int irq);
 

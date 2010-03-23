@@ -11,7 +11,7 @@
 #include "protect.h"
 #include "proc.h"
 
-EXTERN int			ticks;
+EXTERN clock_t		ticks;
 
 EXTERN int			disp_pos;
 
@@ -26,8 +26,10 @@ EXTERN PROCESS*		p_proc_ready;
 EXTERN int			k_reenter;
 
 EXTERN PROCESS*		proc_ptr;
+EXTERN PROCESS*		proc_current;
+EXTERN int			current_pid;
 
-extern PROCESS		proc_table[];
+extern PROCESS*		proc_table;
 extern TASK			task_table[];
 extern char			task_stack[];
 extern irq_handler	irq_table[];
