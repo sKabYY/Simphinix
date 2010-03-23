@@ -1,9 +1,9 @@
-#include "const.h"
-#include "type.h"
-#include "proto.h"
-#include "global.h"
+#include <const.h>
+#include <type.h>
+#include <proto.h>
+#include <global.h>
 
-PUBLIC void task_sys() {
+PUBLIC void system_task() {
 	message msg;
 	while (1) {
 //dbgprtstr("\nbigen recieve\n");

@@ -1,9 +1,9 @@
-#ifndef _SIMPHINIX_PROTO_H_
-#define _SIMPHINIX_PROTO_H_
+#ifndef _PROTO_H_
+#define _PROTO_H_
 
-#include "type.h"
-#include "const.h"
-#include "proc.h"
+#include <type.h>
+#include <const.h>
+#include <proc.h>
 
 /* kliba.S */
 PUBLIC void	out_byte(t_port port, t_8 value);
@@ -32,8 +32,11 @@ PUBLIC void TestA();
 PUBLIC void TestB();
 PUBLIC int get_ticks();
 
-/* systask.c */
-PUBLIC void task_sys();
+/* system.c */
+PUBLIC void system_task();
+
+/* idle.c */
+PUBLIC void idle_task();
 
 /* i8259.c */
 PUBLIC void put_irq_handler(int irq, irq_handler handler);
@@ -50,6 +53,8 @@ PUBLIC int notify(int dest);
 /* syscall.S */
 PUBLIC int _sendrec(int function, 
 		int caller_nr, int src_dest, message* msg);
+/* lvl0call.S */
+PUBLIC void level0(int_handler handler);
 
 /* clock.c */
 PUBLIC void clock_task();

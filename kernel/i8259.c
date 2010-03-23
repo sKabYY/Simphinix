@@ -1,8 +1,8 @@
-#include "type.h"
-#include "const.h"
-#include "protect.h"
-#include "proto.h"
-#include "global.h"
+#include <type.h>
+#include <const.h>
+#include <protect.h>
+#include <proto.h>
+#include <global.h>
 
 extern void disp_int(int i);
 

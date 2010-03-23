@@ -1,5 +1,5 @@
-#ifndef _SIMPHINIX_CONST_H_
-#define _SIMPHINIX_CONST_H_
+#ifndef _CONST_H_
+#define _CONST_H_
 
 #define EXTERN extern
 
@@ -15,7 +15,9 @@
 #define	PRIVILEGE_TASK	1
 #define	PRIVILEGE_USER	3
 
+#define RPL_KRNL	SA_RPL0
 #define RPL_TASK	SA_RPL1
+#define RPL_USER	SA_RPL3
 
 #define SENDING		0x02
 #define RECEIVING	0x04
@@ -23,14 +25,18 @@
 
 /* system call */
 #define SYSVEC		0x32
+/* level0 call */
+#define LEVEL0_VECTOR	0x34
 
 /* tasks */
 #define INTERRUPT	-10
 #define ANY			(NR_TASKS + NR_PROCS + 10)
 #define NO_TASK		(NR_TASKS + NR_PROCS + 20)
 
-#define CLOCK		0
-#define SYSTEM		1
+#define IDLE		-4
+#define CLOCK		-3
+#define SYSTEM		-2
+#define KERNEL		-1
 
 enum msgtype {
 	HARD_INT = 1,
@@ -56,7 +62,6 @@ enum msgtype {
 
 #define NR_IRQ		16
 
-#define KERNEL		-1
 #define CLOCK_IRQ	0
 #define KEYBOARD_IRQ	1
 
@@ -66,6 +71,7 @@ enum msgtype {
 #define BOTH		3 /* BOTH = (SEND|RECEIVE) */
 #define NOTIFY		4
 
+#define ASSERT
 #ifdef ASSERT
 void assert_failure(char* exp, char* file, char* base_file, int line);
 #define assert(exp) if (exp); \

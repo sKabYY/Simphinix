@@ -6,10 +6,10 @@
 #define EXTERN
 #endif
 
-#include "type.h"
-#include "const.h"
-#include "protect.h"
-#include "proc.h"
+#include <type.h>
+#include <const.h>
+#include <protect.h>
+#include <proc.h>
 
 EXTERN clock_t		ticks;
 
@@ -29,7 +29,7 @@ EXTERN PROCESS*		proc_ptr;
 EXTERN int			current_pid;
 
 extern PROCESS*		proc_table;
-extern TASK			task_table[];
+extern IMAGE		image[];
 extern char			task_stack[];
 extern irq_handler	irq_table[];
 

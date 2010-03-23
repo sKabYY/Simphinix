@@ -1,5 +1,5 @@
-#ifndef _SIMPHINIX_TYPE_H_
-#define _SIMPHINIX_TYPE_H_
+#ifndef _TYPE_H_
+#define _TYPE_H_
 
 typedef unsigned long long	t_64;
 typedef unsigned int		t_32;

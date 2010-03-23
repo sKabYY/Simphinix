@@ -1,8 +1,10 @@
-#include "const.h"
-#include "type.h"
-#include "proc.h"
-#include "proto.h"
-#include "global.h"
+#include <const.h>
+#include <type.h>
+#include <proc.h>
+#include <proto.h>
+#include <global.h>
+
+PRIVATE int clock_lock = 0;
 
 PRIVATE void do_clocktick(message* msg);
 PRIVATE void do_schedule();
@@ -30,26 +32,33 @@ PRIVATE void do_clocktick(message* msg) {
 PRIVATE void do_schedule() {
 	PROCESS* p;
 	int greatest_ticks = 0;
-	while (!greatest_ticks) {
-		for (p = proc_table; p < proc_table + NR_TASKS + NR_PROCS; p++) {
+	int is_all_block = 1;
+	while (greatest_ticks <= 0) {
+		for (p = proc_table-NR_TASKS; p < proc_table+NR_PROCS; p++) {
 //dbgprtstr(p->p_name);
 //dbgprtint(p->p_flags);
 //dbgprtstr(" ");
-			if (p->p_flags == 0 && proc2pid(p) != CLOCK) {
+			if (p->p_flags == 0 && proc2pid(p) != CLOCK && 
+					proc2pid(p) != IDLE) {
+				is_all_block = 0;
 				if (p->ticks > greatest_ticks) {
 					greatest_ticks = p->ticks;
 					p_proc_ready = p;
 				}
 			}
 		}
-		if (!greatest_ticks) {
-			for (p = proc_table; p < proc_table + NR_TASKS+NR_PROCS; p++) {
-				if (p->p_flags <= 0)
+		if (greatest_ticks <= 0) {
+			for (p = proc_table-NR_TASKS; p < proc_table+NR_PROCS; p++) {
+				if (p->p_flags == 0)
 					p->ticks = p->priority;
 			}
 		}
+		if (is_all_block) {
+			p_proc_ready = proc_table + IDLE;
+			break;
+		}
 	}
-//dbgprtstr(p_proc_ready->p_name);dbgprtint(p_proc_ready->p_flags);
+//dbgprtstr(p_proc_ready->p_name);
 }
 
 PUBLIC void init_clock() {
@@ -62,16 +71,19 @@ PUBLIC void init_clock() {
 }
 
 PUBLIC void clock_handler(int irq) {
+//dbgprtint(current_pid);
+//dbgprtint(proc_ptr->ticks);
 	ticks++;
 	proc_ptr->ticks--;
 
-	if (k_reenter != 0) {
+//dbgprtstr(proc_ptr->p_name);
+	if (clock_lock != 0) {
 		return;
 	}
-
-	if (proc_ptr->ticks <= 0)
+	clock_lock = 1;
+	if (proc_ptr->ticks <= 0) {
 		schedule();
-	if (proc_ptr->p_flags)
-		proc_ptr = p_proc_ready;
+	}
+	clock_lock = 0;
 }
 

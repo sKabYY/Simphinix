@@ -1,8 +1,8 @@
-#ifndef _SIMPHINIX_PROC_H_
-#define _SIMPHINIX_PROC_H_
+#ifndef _PROC_H_
+#define _PROC_H_
 
-#include "type.h"
-#include "protect.h"
+#include <type.h>
+#include <protect.h>
 
 typedef struct s_stackframe {
 	t_32 gs;
@@ -47,20 +47,26 @@ typedef struct s_proc {
 	int nr_tty;
 } PROCESS;
 
-typedef struct s_task {
+typedef struct s_image {
+	int proc_nr;
 	t_pf_task initial_eip;
 	int stacksize;
-	char name[32];
-} TASK;
+	char name[16];
+} IMAGE;
 
 #define proc2pid(x) (x - proc_table)
 
-#define NR_TASKS 2
+#define NR_TASKS 4
 #define NR_PROCS 2
 
-#define STACK_SIZE_PP 0x8000
+#define TSK_S PT_STACK
+#define IDL_S NO_STACK
+#define HRD_S NO_STACK
 
-#define STACK_SIZE_TOTAL (STACK_SIZE_PP * (NR_TASKS+NR_PROCS))
+#define PT_STACK 0x8000
+#define NO_STACK 0
+
+#define STACK_SIZE_TOTAL (PT_STACK* (NR_TASKS+NR_PROCS))
 
 #endif
 

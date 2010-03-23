@@ -1,7 +1,7 @@
-#ifndef _SIMPHINIX_PROTECT_H_
-#define _SIMPHINIX_PROTECT_H_
+#ifndef _PROTECT_H_
+#define _PROTECT_H_
 
-#include "type.h"
+#include <type.h>
 
 typedef struct s_descriptor {
 	t_16	limit_low;

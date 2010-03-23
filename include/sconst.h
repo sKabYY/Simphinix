@@ -35,6 +35,7 @@
 .set	EOI,			0x20
 
 .set	SYSVEC,			0x32
+.set	LEVEL0_VECTOR,	0x34
 
 .set	KERNEL,			-1
 

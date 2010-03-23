@@ -1,4 +1,4 @@
-#include "sconst.h"
+#include <sconst.h>
 
 .global _sendrec
 

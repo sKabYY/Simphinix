@@ -1,4 +1,4 @@
-#include "sconst.h"
+#include <sconst.h>
 
 .data
 disp_pos:	.4byte	0

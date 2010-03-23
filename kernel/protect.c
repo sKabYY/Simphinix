@@ -5,13 +5,13 @@
                                                     Forrest Yu, 2005
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-#include "type.h"
-#include "const.h"
-#include "protect.h"
-#include "proto.h"
-#include "proc.h"
-#include "string.h"
-#include "global.h"
+#include <type.h>
+#include <const.h>
+#include <protect.h>
+#include <proto.h>
+#include <proc.h>
+#include <string.h>
+#include <global.h>
 
 extern void init_8259A();
 
@@ -56,6 +56,7 @@ void    hwint13();
 void    hwint14();
 void    hwint15();
 void	_s_call();
+void	_l0_call();
 
 /*======================================================================*
                             init_prot
@@ -161,6 +162,7 @@ PUBLIC void init_prot()
                       hwint15,                  PRIVILEGE_KRNL);
 
 	init_idt_desc(SYSVEC, DA_386IGate, _s_call, PRIVILEGE_USER);
+	init_idt_desc(LEVEL0_VECTOR, DA_386IGate, _l0_call, PRIVILEGE_TASK);
 
 	memset(&tss, 0, sizeof(tss));
 	tss.ss0 = SELECTOR_KERNEL_DS;
@@ -173,7 +175,7 @@ PUBLIC void init_prot()
 	int i;
 	PROCESS* p_proc = proc_table;
 	t_16 selector_ldt = INDEX_LDT_FIRST << 3;
-	for (i = 0; i < NR_TASKS+NR_PROCS; i++) {
+	for (i = -NR_TASKS; i < NR_PROCS; i++) {
 		init_descriptor(&gdt[selector_ldt >> 3],
 				vir2phys(seg2phys(SELECTOR_KERNEL_DS), 
 						proc_table[i].ldts),

@@ -1,9 +1,9 @@
-#include "const.h"
-#include "proc.h"
-#include "type.h"
-#include "string.h"
-#include "global.h"
-#include "proto.h"
+#include <const.h>
+#include <proc.h>
+#include <type.h>
+#include <string.h>
+#include <global.h>
+#include <proto.h>
 
 PRIVATE void block(PROCESS* p);
 PRIVATE void unblock(PROCESS* p);
@@ -14,8 +14,6 @@ PRIVATE int deadlock(int src, int dest);
 
 PUBLIC int _sys_call(int function, 
 		int caller_nr, int src_dest, message* msg) {
-//dbgprtstr(proc_ptr->p_name);dbgprtint(proc_ptr->pid);dbgprtstr("\n");
-
 	int ret = 0;
 	PROCESS* caller_ptr = proc_table + caller_nr;
 	message* mla = (message*)va2la(caller_nr, msg);
@@ -56,7 +54,6 @@ PUBLIC int sendrec(int function, int src_dest, message* msg) {
 			break;
 		case SEND:
 		case RECEIVE:
-//dbgprtstr(proc_ptr->p_name);dbgprtint(proc_ptr->pid);dbgprtstr("\n");
 			ret = _sendrec(function, caller_nr, src_dest, msg);
 			break;
 		default:
@@ -90,7 +87,7 @@ PUBLIC void* va2la(int pid, void* va) {
 	PROCESS* p = &proc_table[pid];
 	t_32 seg_base = ldt_seg_linear(p, INDEX_LDT_RW);
 	t_32 la = seg_base + (t_32)va;
-	if (pid < NR_TASKS + NR_PROCS) {
+	if (pid < NR_PROCS && pid >= -NR_TASKS) {
 		assert(la == (t_32)va);
 	}
 	return (void*)la;
@@ -102,39 +99,11 @@ PUBLIC void reset_msg(message* p)
 }
 
 PUBLIC void schedule() {
-/*	PROCESS* p;*/
-/*	int greatest_ticks = 0;*/
-/*	while (!greatest_ticks) {*/
-/*		for (p = proc_table; p < proc_table + NR_TASKS + NR_PROCS; p++) {*/
-/*//			dbgprtstr(p->p_name);*/
-/*//			dbgprtint(p->p_flags);*/
-/*//			dbgprtstr(" ");*/
-/*			if (p->p_flags == 0) {*/
-/*				if (p->ticks > greatest_ticks) {*/
-/*					greatest_ticks = p->ticks;*/
-/*					p_proc_ready = p;*/
-/*				}*/
-/*			}*/
-/*		}*/
-/*		if (!greatest_ticks) {*/
-/*			for (p = proc_table; p < proc_table + NR_TASKS+NR_PROCS; p++) {*/
-/*				if (p->p_flags == 0)*/
-/*					p->ticks = p->priority;*/
-/*			}*/
-/*		}*/
-/*	}*/
-/*	proc_ptr = p_proc_ready;*/
-/*	current_pid = proc2pid(proc_ptr);*/
-//dbgprtint(current_pid);
-//dbgprtstr(proc_ptr->p_name);dbgprtint(proc_ptr->pid);dbgprtstr("\n");
-	notify(CLOCK);
-//	message msg;
-//	reset_msg(&msg);
-//	msg.source = KERNEL;
-//	msg.type = HARD_INT;
-//	msg_notify(proc_table+KERNEL, CLOCK, &msg);
-	if (proc_ptr == p_proc_ready)
+//dbgprtstr(proc_ptr->p_name);
+	if (proc_ptr == p_proc_ready) {
+		notify(CLOCK);
 		proc_ptr = proc_table + CLOCK;
+	}
 	else
 		proc_ptr = p_proc_ready;
 }
@@ -340,13 +309,13 @@ PRIVATE int msg_receive(PROCESS* current, int src, message* m)
 		else
 			p_who_wanna_recv->p_recvfrom = proc2pid(p_from);
 
-		block(p_who_wanna_recv);
-
 		assert(p_who_wanna_recv->p_flags == RECEIVING);
 		assert(p_who_wanna_recv->p_msg != 0);
 		assert(p_who_wanna_recv->p_recvfrom != NO_TASK);
 		assert(p_who_wanna_recv->p_sendto == NO_TASK);
 		assert(p_who_wanna_recv->has_int_msg == 0);
+
+		block(p_who_wanna_recv);
 	}
 	return 0;
 }

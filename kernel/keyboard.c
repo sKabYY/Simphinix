@@ -1,6 +1,6 @@
-#include "const.h"
-#include "proto.h"
-#include "type.h"
+#include <const.h>
+#include <proto.h>
+#include <type.h>
 
 void init_keyboard() {
 	put_irq_handler(KEYBOARD_IRQ, keyboard_handler);

@@ -1,4 +1,4 @@
-#include "sconst.h"
+#include <sconst.h>
 
 /* import global function */
 .extern cstart
@@ -19,6 +19,7 @@
 	.lcomm StackSpace, StackLen
 .set StackTop, (StackSpace + StackLen)
 
+.code32
 .text
 
 .global _start
@@ -57,6 +58,7 @@
 .global  hwint14
 .global  hwint15
 .global _s_call
+.global _l0_call
 
 _start:
 	mov		$StackTop, %esp
@@ -222,6 +224,13 @@ _s_call:
 	add		$4*4, %esp
 
 	mov		%eax, (EAXREG-P_STACKBASE)(%esi)
+	cli
+	ret
+
+_l0_call:
+	call	save
+	sti
+	call	*%eax
 	cli
 	ret
 

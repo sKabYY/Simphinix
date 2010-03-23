@@ -1,7 +1,7 @@
-#ifndef _SIMPHINIX_STRING_H_
-#define _SIMPHINIX_STRING_H_
+#ifndef _STRING_H_
+#define _STRING_H_
 
-#include "const.h"
+#include <const.h>
 
 #define phys_copy memcpy
 
