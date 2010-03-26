@@ -3,6 +3,7 @@
 
 #include <type.h>
 #include <protect.h>
+#include <timer.h>
 
 typedef struct s_stackframe {
 	t_32 gs;
@@ -33,6 +34,7 @@ typedef struct s_proc {
 	DESCRIPTOR ldts[LDT_SIZE];
 
 	clock_t ticks;
+	timer_t timer;
 	int priority;
 
 	char p_name[16];

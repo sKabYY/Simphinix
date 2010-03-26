@@ -8,7 +8,7 @@ KERNELOBJS = kernel/kernel.o kernel/start.o kernel/i8259.o \
 					kernel/proc.o kernel/clock.o kernel/keyboard.o \
 					kernel/syscall.o kernel/lvl0call.o \
 					kernel/system.o kernel/idle.o
-LIBOBJS = lib/string.o lib/klib.o lib/kliba.o lib/misc.o
+LIBOBJS = lib/string.o lib/klib.o lib/kliba.o lib/misc.o lib/timer.o
 KERNELSTAMP=kernel/.STAMP
 OBJS=$(KERNELOBJS) $(LIBOBJS)
 TARGETS=buildkernel floppy.img

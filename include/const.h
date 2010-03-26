@@ -41,9 +41,11 @@
 enum msgtype {
 	HARD_INT = 1,
 	GET_TICKS,
+	SLEEP,
 };
 
 #define RETVAL		u.m3.m3i1
+#define EXP_TIME	u.m3.m3i2
 
 /* 8259A interrupt controller ports. */
 #define INT_M_CTL     0x20 /* I/O port for interrupt controller       <Master> */

@@ -82,9 +82,7 @@ PUBLIC int kernel_main() {
 	proc_ptr = p_proc_ready = proc_table + CLOCK;
 	current_pid = proc2pid(proc_ptr);
 	k_reenter = 0;
-	ticks = 0;
 
-//	init_clock();
 	init_keyboard();
 
 	disp_str("-----\"kernel_main\" ends-----\n");
@@ -98,13 +96,12 @@ PUBLIC int kernel_main() {
                                TestA
  *======================================================================*/
 PUBLIC void TestA() {
-	message m;
 	while(1) {
 		disp_str("#");
 		disp_int(get_ticks());
 		disp_str(".");
-//		sendrec(RECEIVE, ANY, &m);
-		delay(3);
+//		delay(3);
+		sleep(500);
 	}
 }
 
@@ -113,21 +110,12 @@ PUBLIC void TestA() {
                                TestB
  *======================================================================*/
 PUBLIC void TestB() {
-	message m;
 	while (1) {
 		disp_str("%");
 		disp_int(get_ticks());
 		disp_str(".");
-//		sendrec(RECEIVE, ANY, &m);
-		delay(3);
+//		delay(3);
+		sleep(500);
 	}
-}
-
-PUBLIC int get_ticks() {
-	message msg;
-	reset_msg(&msg);
-	msg.type = GET_TICKS;
-	sendrec(BOTH, SYSTEM, &msg);
-	return msg.RETVAL;
 }
 

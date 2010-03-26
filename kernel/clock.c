@@ -4,8 +4,12 @@
 #include <proto.h>
 #include <global.h>
 
+PRIVATE timer_t* clock_timers = NULL;
+PRIVATE clock_t next_timeout = TMR_NEVER;
 PRIVATE int clock_lock = 0;
+PRIVATE clock_t ticks = 0;
 
+PRIVATE void init_clock();
 PRIVATE void do_clocktick(message* msg);
 PRIVATE void do_schedule();
 
@@ -26,6 +30,11 @@ PUBLIC void clock_task() {
 }
 
 PRIVATE void do_clocktick(message* msg) {
+	if (next_timeout <= ticks) {
+		tmrs_exptimers(&clock_timers, ticks, NULL);
+		next_timeout = clock_timers == NULL ?
+				TMR_NEVER : clock_timers->tmr_exp_time;
+	}
 	do_schedule();
 }
 
@@ -61,7 +70,7 @@ PRIVATE void do_schedule() {
 //dbgprtstr(p_proc_ready->p_name);
 }
 
-PUBLIC void init_clock() {
+PRIVATE void init_clock() {
 	out_byte(TIMER_MODE, RATE_GENERATOR);
 	out_byte(TIMER0, (t_8)(TIMER_FREQ/HZ));
 	out_byte(TIMER0, (t_8)((TIMER_FREQ/HZ) >> 8));
@@ -81,9 +90,26 @@ PUBLIC void clock_handler(int irq) {
 		return;
 	}
 	clock_lock = 1;
-	if (proc_ptr->ticks <= 0) {
+//dbgprtint(next_timeout);
+	if (proc_ptr->ticks <= 0 || next_timeout <= ticks) {
 		schedule();
 	}
 	clock_lock = 0;
+}
+
+PUBLIC void set_timer(timer_t* tp, 
+		clock_t exp_time, tmr_func_t watchdog) {
+	tmrs_settimer(&clock_timers, tp, exp_time, watchdog, NULL);
+	next_timeout = clock_timers->tmr_exp_time;
+}
+
+PUBLIC void reset_timer(timer_t* tp) {
+	tmrs_clrtimer(&clock_timers, tp, NULL);
+	next_timeout = (clock_timers == NULL) ?
+			TMR_NEVER : clock_timers->tmr_exp_time;
+}
+
+PUBLIC clock_t get_uptime() {
+	return ticks;
 }
 

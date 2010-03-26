@@ -51,6 +51,7 @@ PUBLIC int sendrec(int function, int src_dest, message* msg) {
 //dbgprtstr(proc_ptr->p_name);dbgprtint(ret);dbgprtstr("\n");
 			if (ret == 0)
 				ret = _sendrec(RECEIVE, caller_nr, src_dest, msg);
+//dbgprtstr(proc_ptr->p_name);dbgprtint(ret);dbgprtstr("\n");
 			break;
 		case SEND:
 		case RECEIVE:
@@ -66,8 +67,10 @@ PUBLIC int sendrec(int function, int src_dest, message* msg) {
 }
 
 PUBLIC int notify(int dest) {
+//if (dest >= 0) {
 //dbgprtstr("notify: ");
-//dbgprtstr(proc_ptr->p_name);dbgprtint(current_pid);dbgprtstr("\n");
+//dbgprtstr(proc_ptr->p_name);dbgprtint(dest);dbgprtstr("\n");
+//}
 	message msg;
 	int caller_nr = current_pid;
 	reset_msg(&msg);
@@ -309,6 +312,8 @@ PRIVATE int msg_receive(PROCESS* current, int src, message* m)
 		else
 			p_who_wanna_recv->p_recvfrom = proc2pid(p_from);
 
+//dbgprtstr(p_who_wanna_recv->p_name);
+//dbgprtint(p_who_wanna_recv->p_flags);
 		assert(p_who_wanna_recv->p_flags == RECEIVING);
 		assert(p_who_wanna_recv->p_msg != 0);
 		assert(p_who_wanna_recv->p_recvfrom != NO_TASK);

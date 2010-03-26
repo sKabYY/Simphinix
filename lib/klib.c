@@ -72,3 +72,28 @@ PUBLIC void delay(int count) {
 	}
 }
 
+/*======================================================================*
+                               get_ticks
+ *======================================================================*/
+PUBLIC int get_ticks() {
+	message msg;
+	reset_msg(&msg);
+	msg.type = GET_TICKS;
+	sendrec(BOTH, SYSTEM, &msg);
+	return msg.RETVAL;
+}
+
+/*======================================================================*
+                                 sleep
+ *======================================================================*/
+PUBLIC void sleep(int ms) {
+	message msg;
+	int ret;
+	reset_msg(&msg);
+	msg.type = SLEEP;
+	msg.EXP_TIME = get_ticks() + (clock_t)(HZ*ms/1000);
+	ret = sendrec(SEND, SYSTEM, &msg);
+	assert(ret == 0);
+	sendrec(RECEIVE, CLOCK, &msg);
+}
+

@@ -23,6 +23,8 @@ PUBLIC t_32 seg2phys(t_16 seg);
 
 /* klib.c */
 PUBLIC void delay(int count);
+PUBLIC int get_ticks();
+PUBLIC void sleep(int ms);
 
 /* kernel.S */
 PUBLIC void restart();
@@ -30,7 +32,6 @@ PUBLIC void restart();
 /* main.c */
 PUBLIC void TestA();
 PUBLIC void TestB();
-PUBLIC int get_ticks();
 
 /* system.c */
 PUBLIC void system_task();
@@ -58,8 +59,10 @@ PUBLIC void level0(int_handler handler);
 
 /* clock.c */
 PUBLIC void clock_task();
-PUBLIC void init_clock();
 PUBLIC void clock_handler(int irq);
+PUBLIC void set_timer(timer_t* tp, clock_t exp_time, tmr_func_t watchdog);
+PUBLIC void reset_timer(timer_t* tp);
+PUBLIC clock_t get_uptime();
 
 /* keyboard.c */
 PUBLIC void init_keyboard();
@@ -68,6 +71,15 @@ PUBLIC void keyboard_handler(int irq);
 /* misc.c */
 PUBLIC void assertion_failure(char* exp, char* file,
 		char* base_file, int line);
+
+/* timer.c */
+PUBLIC clock_t tmrs_clrtimer(timer_t** tmrs,
+		timer_t* tp, clock_t* next_time);
+PUBLIC clock_t tmrs_settimer(timer_t** tmrs,
+		timer_t* tp, clock_t exp_time, tmr_func_t watchdog,
+		clock_t* new_head);
+PUBLIC void tmrs_exptimers(timer_t** tmrs,
+		clock_t now, clock_t* new_head);
 
 #endif
 
