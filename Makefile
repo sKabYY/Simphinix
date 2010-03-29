@@ -36,6 +36,7 @@ $(KERNELSTAMP): include/*.h
 	@$(MAKE) cleankernel;\
 	touch $(KERNELSTAMP)
 
+
 kernel/KERNEL.BIN: $(OBJS) kernel/kernel.ld
 	$(LD) $(OBJS) -o $@ -T kernel/kernel.ld
 

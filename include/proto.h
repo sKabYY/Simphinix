@@ -25,6 +25,8 @@ PUBLIC t_32 seg2phys(t_16 seg);
 PUBLIC void delay(int count);
 PUBLIC int get_ticks();
 PUBLIC void sleep(int ms);
+#define disable_int() __asm__ __volatile__("cli")
+#define enable_int() __asm__ __volatile__("sti")
 
 /* kernel.S */
 PUBLIC void restart();
