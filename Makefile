@@ -1,7 +1,7 @@
 CC=gcc
 LD=ld
-ASFLAGS=-I include
-CFLAGS=-c -fno-builtin -fno-stack-protector -Wall -I include
+ASFLAGS=-I include -m32
+CFLAGS=-fno-builtin -fno-stack-protector -Wall -I include -m32
 
 KERNELOBJS = kernel/kernel.o kernel/start.o kernel/i8259.o \
 					kernel/protect.o kernel/global.o kernel/main.o \
@@ -37,7 +37,7 @@ $(KERNELSTAMP): include/*.h
 	touch $(KERNELSTAMP)
 
 kernel/KERNEL.BIN: $(OBJS) kernel/kernel.ld
-	$(LD) $(OBJS) -o $@ -T kernel/kernel.ld
+	$(LD) $(OBJS) -o $@ -T kernel/kernel.ld -m elf_i386
 
 copy: floppy.img boot/LOADER.BIN buildkernel 
 	@-mkdir -p /tmp/floppy;\

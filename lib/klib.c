@@ -92,6 +92,7 @@ PUBLIC void sleep(int ms) {
 	reset_msg(&msg);
 	msg.type = SLEEP;
 	msg.EXP_TIME = get_ticks() + (clock_t)(HZ*ms/1000);
+//dbgprtstr("EXP: ");dbgprtint(msg.EXP_TIME);dbgprtstr("@ ");
 	ret = sendrec(SEND, SYSTEM, &msg);
 	assert(ret == 0);
 	sendrec(RECEIVE, CLOCK, &msg);

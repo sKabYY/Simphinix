@@ -23,6 +23,7 @@ PUBLIC void system_task() {
 			case SLEEP:
 //dbgprtstr(p->p_name);
 				p->timer.tmr_arg.ta_int = src;
+//dbgprtstr("time: ");dbgprtint(msg.EXP_TIME);dbgprtstr("\n");
 				set_timer(&p->timer, msg.EXP_TIME, awake);
 				break;
 			default:

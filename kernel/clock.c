@@ -4,10 +4,10 @@
 #include <proto.h>
 #include <global.h>
 
-PRIVATE timer_t* clock_timers = NULL;
-PRIVATE clock_t next_timeout = TMR_NEVER;
-PRIVATE int clock_lock = 0;
-PRIVATE clock_t ticks = 0;
+PRIVATE timer_t* clock_timers;
+PRIVATE clock_t next_timeout;
+PRIVATE int clock_lock;
+PRIVATE clock_t ticks;
 
 PRIVATE void init_clock();
 PRIVATE void do_clocktick(message* msg);
@@ -75,6 +75,11 @@ PRIVATE void init_clock() {
 	out_byte(TIMER0, (t_8)(TIMER_FREQ/HZ));
 	out_byte(TIMER0, (t_8)((TIMER_FREQ/HZ) >> 8));
 
+	clock_timers = NULL;
+	next_timeout = TMR_NEVER;
+	clock_lock = 0;
+	ticks = 0;
+
 	put_irq_handler(CLOCK_IRQ, clock_handler);
 	enable_irq(CLOCK_IRQ);
 }
@@ -99,6 +104,8 @@ PUBLIC void clock_handler(int irq) {
 
 PUBLIC void set_timer(timer_t* tp, 
 		clock_t exp_time, tmr_func_t watchdog) {
+//dbgprtstr("&clock_timers: ");dbgprtint(&clock_timers);dbgprtstr("\n");
+//dbgprtstr("clock_timers: ");dbgprtint(clock_timers);dbgprtstr("\n");
 	tmrs_settimer(&clock_timers, tp, exp_time, watchdog, NULL);
 	next_timeout = clock_timers->tmr_exp_time;
 }
@@ -110,6 +117,9 @@ PUBLIC void reset_timer(timer_t* tp) {
 }
 
 PUBLIC clock_t get_uptime() {
+//dbgprtstr("get_uptime: ");
+//dbgprtint(ticks);
+//dbgprtstr("\n");
 	return ticks;
 }
 

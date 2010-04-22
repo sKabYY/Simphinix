@@ -41,8 +41,9 @@ PUBLIC clock_t tmrs_settimer(timer_t** tmrs,
 		clock_t* new_head) {
 	timer_t** atp;
 	clock_t old_head = 0;
-	if (*tmrs)
+	if (*tmrs) {
 		old_head = (*tmrs)->tmr_exp_time;
+	}
 	tmrs_clrtimer(tmrs, tp, NULL);
 	tp->tmr_exp_time = exp_time;
 	tp->tmr_func = watchdog;
